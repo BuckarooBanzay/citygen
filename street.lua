@@ -30,24 +30,23 @@ function citygen.generate_street(data, area, street_y_pos, direction, _, min_pos
       { x=min_pos.x+2, y=street_y_pos+1, z=min_pos.z+2 }
     )
 
-    set_nodes(
+		set_nodes(
       data, area, c_sidewalk,
-      { x=max_pos.x, y=street_y_pos+1, z=max_pos.z },
-      { x=max_pos.x-2, y=street_y_pos+1, z=max_pos.z-2 }
+			{ x=max_pos.x-2, y=street_y_pos+1, z=max_pos.z-2 },
+      { x=max_pos.x, y=street_y_pos+1, z=max_pos.z }
     )
 
     set_nodes(
       data, area, c_sidewalk,
-      { x=max_pos.x, y=street_y_pos+1, z=min_pos.z },
-      { x=max_pos.x-2, y=street_y_pos+1, z=min_pos.z+2 }
+      { x=max_pos.x-2, y=street_y_pos+1, z=min_pos.z },
+      { x=max_pos.x, y=street_y_pos+1, z=min_pos.z+2 }
     )
 
     set_nodes(
       data, area, c_sidewalk,
-      { x=min_pos.x, y=street_y_pos+1, z=max_pos.z },
-      { x=min_pos.x+2, y=street_y_pos+1, z=max_pos.z-2 }
+      { x=min_pos.x, y=street_y_pos+1, z=max_pos.z-2 },
+      { x=min_pos.x+2, y=street_y_pos+1, z=max_pos.z }
     )
-
 
   elseif direction == citygen.DIRECTION_EAST_WEST then
     set_nodes(
@@ -56,11 +55,11 @@ function citygen.generate_street(data, area, street_y_pos, direction, _, min_pos
       { x=max_pos.x, y=street_y_pos+1, z=min_pos.z+2 }
     )
 
-    set_nodes(
-      data, area, c_sidewalk,
-      { x=min_pos.x, y=street_y_pos+1, z=max_pos.z },
-      { x=max_pos.x, y=street_y_pos+1, z=max_pos.z-2 }
-    )
+		set_nodes(
+			data, area, c_sidewalk,
+			{ x=min_pos.x, y=street_y_pos+1, z=max_pos.z-2 },
+			{ x=max_pos.x, y=street_y_pos+1, z=max_pos.z }
+		)
 
   elseif direction == citygen.DIRECTION_NORTH_SOUTH then
     set_nodes(
@@ -69,10 +68,10 @@ function citygen.generate_street(data, area, street_y_pos, direction, _, min_pos
       { x=min_pos.x+2, y=street_y_pos+1, z=max_pos.z }
     )
 
-    set_nodes(
+		set_nodes(
       data, area, c_sidewalk,
-      { x=max_pos.x, y=street_y_pos+1, z=min_pos.z },
-      { x=max_pos.x-2, y=street_y_pos+1, z=max_pos.z }
+      { x=max_pos.x-2, y=street_y_pos+1, z=min_pos.z },
+      { x=max_pos.x, y=street_y_pos+1, z=max_pos.z }
     )
 
   end

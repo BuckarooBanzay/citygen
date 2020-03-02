@@ -16,6 +16,11 @@ minetest.register_on_generated(function(minp)
         local mapblock_pos = { x = mapblock_x, y = mapblock_y, z = mapblock_z }
         local min_pos, max_pos = citygen.get_blocks_from_mapblock(mapblock_pos)
 
+				local magic_pos = citygen.get_magic_mapblock_pos(mapblock_pos)
+				local perlin_value = citygen.get_perlin(magic_pos)
+
+				minetest.log("action", "Perlin @ " .. minetest.pos_to_string(mapblock_pos) .. " = " .. perlin_value)
+
         if citygen.is_street_mapblock(mapblock_pos) then
             dirty = true
             citygen.generate_street(data, area, mapblock_pos, min_pos, max_pos)

@@ -18,3 +18,23 @@ function citygen.get_magic_mapblock_pos(mapblock_pos)
 		z = mapblock_pos.z - (mapblock_pos.z % pilot_street_modulo)
 	}
 end
+
+
+local noise_params = {
+	offset = 0,
+	scale = 5,
+	spread = {x=256, y=256, z=256},
+	seed = 5477835,
+	octaves = 2,
+	persist = 0.5
+}
+
+local perlin
+
+-- XXX TODO
+function citygen.get_perlin(mapblock_pos)
+	perlin = perlin or minetest.get_perlin_map(noise_params, {x=1,y=0,z=0})
+	local perlin_map = {}
+	perlin:get_2d_map_flat({x=mapblock_pos.x, y=mapblock_pos.z}, perlin_map)
+	return perlin_map[1]
+end

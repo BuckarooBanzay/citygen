@@ -13,10 +13,11 @@ local function shutdown_success()
 	minetest.request_shutdown("success")
 end
 
-minetest.register_on_mods_loaded(function()
-	local origin = {x=0, y=0, z=0}
-	minetest.emerge_area(vector.subtract(origin, 100), vector.add(origin, 100), function(blockpos, _, calls_remaining)
-		minetest.log("action", "Emerged: " .. minetest.pos_to_string(blockpos))
+minetest.after(1, function()
+	minetest.emerge_area(
+		{x=-100, y=-100, z=-100},
+		{x=100, y=100, z=100},
+		function(_, _, calls_remaining)
 		if calls_remaining == 0 then
 			shutdown_success()
 		end

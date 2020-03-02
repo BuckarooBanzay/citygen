@@ -20,7 +20,10 @@ local function set_nodes(data, area, contentid, pos1, pos2)
   end
 end
 
-local function generate_street(data, area, direction, _, min_pos, max_pos)
+local function generate_street(data, area, direction, blockpos, min_pos, max_pos)
+  minetest.log("action", "Generating street at: " .. minetest.pos_to_string(blockpos) ..
+    " direction: " .. direction)
+
   -- street base layer
   set_nodes(
     data, area, c_street,
@@ -90,6 +93,7 @@ minetest.register_on_generated(function(minp)
   local min_mapblock, max_mapblock = citygen.get_mapblocks_from_chunk(chunkpos)
 
   local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+
 	local data = vm:get_data()
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
   local dirty = false
@@ -100,7 +104,7 @@ minetest.register_on_generated(function(minp)
         local mapblock_pos = { x = mapblock_x, y = mapblock_y, z = mapblock_z }
         local min_pos, max_pos = citygen.get_blocks_from_mapblock(mapblock_pos)
 
-        if min_pos < street_y_pos and max_pos > street_y_pos then
+        if min_pos.y < street_y_pos and max_pos.y > street_y_pos then
           local street_x_match = mapblock_x % pilot_street_modulo == 0
           local street_z_match = mapblock_z % pilot_street_modulo == 0
 
@@ -127,5 +131,6 @@ minetest.register_on_generated(function(minp)
 
   if dirty then
     vm:set_data(data)
+    vm:write_to_map()
   end
 end)

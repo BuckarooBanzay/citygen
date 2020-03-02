@@ -13,7 +13,7 @@ local function set_nodes(data, area, contentid, pos1, pos2)
   end
 end
 
-function citygen.generate_street(data, area, direction, _, min_pos, max_pos)
+function citygen.generate_street(data, area, mapblock_pos, min_pos, max_pos)
   -- street base layer
   set_nodes(
     data, area, c_street,
@@ -23,56 +23,69 @@ function citygen.generate_street(data, area, direction, _, min_pos, max_pos)
 
   -- sidewalks
   -- local sidewalk_width = 2
-  if direction == citygen.DIRECTION_BOTH then
-    set_nodes(
-      data, area, c_sidewalk,
-      { x=min_pos.x, y=min_pos.y+1, z=min_pos.z },
-      { x=min_pos.x+2, y=min_pos.y+1, z=min_pos.z+2 }
-    )
 
+	-- south-east corner
+  set_nodes(
+    data, area, c_sidewalk,
+    { x=min_pos.x, y=min_pos.y+1, z=min_pos.z },
+    { x=min_pos.x+2, y=min_pos.y+1, z=min_pos.z+2 }
+  )
+
+	-- north-west corner
+	set_nodes(
+    data, area, c_sidewalk,
+		{ x=max_pos.x-2, y=min_pos.y+1, z=max_pos.z-2 },
+    { x=max_pos.x, y=min_pos.y+1, z=max_pos.z }
+  )
+
+	-- north-east corner
+  set_nodes(
+    data, area, c_sidewalk,
+    { x=max_pos.x-2, y=min_pos.y+1, z=min_pos.z },
+    { x=max_pos.x, y=min_pos.y+1, z=min_pos.z+2 }
+  )
+
+	-- south-west corner
+  set_nodes(
+    data, area, c_sidewalk,
+    { x=min_pos.x, y=min_pos.y+1, z=max_pos.z-2 },
+    { x=min_pos.x+2, y=min_pos.y+1, z=max_pos.z }
+  )
+
+	-- check north border
+	if not citygen.is_street_mapblock(vector.add(mapblock_pos, {x=0, y=0, z=1})) then
 		set_nodes(
-      data, area, c_sidewalk,
-			{ x=max_pos.x-2, y=min_pos.y+1, z=max_pos.z-2 },
-      { x=max_pos.x, y=min_pos.y+1, z=max_pos.z }
-    )
+	    data, area, c_sidewalk,
+			{ x=min_pos.x+2, y=min_pos.y+1, z=max_pos.z-2 },
+	    { x=max_pos.x-2, y=min_pos.y+1, z=max_pos.z }
+	  )
+	end
 
-    set_nodes(
-      data, area, c_sidewalk,
-      { x=max_pos.x-2, y=min_pos.y+1, z=min_pos.z },
-      { x=max_pos.x, y=min_pos.y+1, z=min_pos.z+2 }
-    )
-
-    set_nodes(
-      data, area, c_sidewalk,
-      { x=min_pos.x, y=min_pos.y+1, z=max_pos.z-2 },
-      { x=min_pos.x+2, y=min_pos.y+1, z=max_pos.z }
-    )
-
-  elseif direction == citygen.DIRECTION_EAST_WEST then
-    set_nodes(
-      data, area, c_sidewalk,
-      { x=min_pos.x, y=min_pos.y+1, z=min_pos.z },
-      { x=max_pos.x, y=min_pos.y+1, z=min_pos.z+2 }
-    )
-
+	-- check south border
+	if not citygen.is_street_mapblock(vector.add(mapblock_pos, {x=0, y=0, z=-1})) then
 		set_nodes(
-			data, area, c_sidewalk,
-			{ x=min_pos.x, y=min_pos.y+1, z=max_pos.z-2 },
-			{ x=max_pos.x, y=min_pos.y+1, z=max_pos.z }
-		)
+	    data, area, c_sidewalk,
+			{ x=min_pos.x+2, y=min_pos.y+1, z=min_pos.z },
+	    { x=max_pos.x-2, y=min_pos.y+1, z=min_pos.z+2 }
+	  )
+	end
 
-  elseif direction == citygen.DIRECTION_NORTH_SOUTH then
-    set_nodes(
-      data, area, c_sidewalk,
-      { x=min_pos.x, y=min_pos.y+1, z=min_pos.z },
-      { x=min_pos.x+2, y=min_pos.y+1, z=max_pos.z }
-    )
-
+	-- check east border
+	if not citygen.is_street_mapblock(vector.add(mapblock_pos, {x=-1, y=0, z=0})) then
 		set_nodes(
-      data, area, c_sidewalk,
-      { x=max_pos.x-2, y=min_pos.y+1, z=min_pos.z },
-      { x=max_pos.x, y=min_pos.y+1, z=max_pos.z }
-    )
+	    data, area, c_sidewalk,
+			{ x=min_pos.x, y=min_pos.y+1, z=min_pos.z+2 },
+	    { x=min_pos.x+2, y=min_pos.y+1, z=max_pos.z-2 }
+	  )
+	end
 
-  end
+	-- check west border
+	if not citygen.is_street_mapblock(vector.add(mapblock_pos, {x=1, y=0, z=0})) then
+		set_nodes(
+	    data, area, c_sidewalk,
+			{ x=max_pos.x-2, y=min_pos.y+1, z=min_pos.z+2 },
+	    { x=max_pos.x, y=min_pos.y+1, z=max_pos.z-2 }
+	  )
+	end
+
 end

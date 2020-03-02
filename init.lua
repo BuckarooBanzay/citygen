@@ -1,15 +1,12 @@
 
-citygen = {
-  DIRECTION_NORTH_SOUTH = 1,
-  DIRECTION_EAST_WEST = 2,
-  DIRECTION_BOTH = 3
-}
+citygen = {}
 
 
 local MP = minetest.get_modpath("citygen")
 
 -- common stuff
 dofile(MP.."/functions.lua")
+dofile(MP.."/mapblock_checks.lua")
 dofile(MP.."/street.lua")
 dofile(MP.."/mapgen.lua")
 

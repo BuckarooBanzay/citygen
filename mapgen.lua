@@ -1,6 +1,6 @@
 
 
-local street_y_pos = 1
+local street_y_mapblock = 0
 local pilot_street_modulo = 10
 
 
@@ -21,7 +21,7 @@ minetest.register_on_generated(function(minp)
         local mapblock_pos = { x = mapblock_x, y = mapblock_y, z = mapblock_z }
         local min_pos, max_pos = citygen.get_blocks_from_mapblock(mapblock_pos)
 
-        if min_pos.y < street_y_pos and max_pos.y > street_y_pos then
+        if mapblock_y == street_y_mapblock then
           -- y coords match for street
           local street_x_match = mapblock_x % pilot_street_modulo == 0
           local street_z_match = mapblock_z % pilot_street_modulo == 0
@@ -39,7 +39,7 @@ minetest.register_on_generated(function(minp)
           if direction then
             -- x/z coords match for street
             dirty = true
-            citygen.generate_street(data, area, street_y_pos, direction, mapblock_pos, min_pos, max_pos)
+            citygen.generate_street(data, area, direction, mapblock_pos, min_pos, max_pos)
           end
         end
       end

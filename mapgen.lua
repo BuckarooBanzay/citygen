@@ -1,38 +1,24 @@
 
-minetest.register_on_generated(function(minp)
+minetest.register_on_generated(function(minp, maxp)
+	local start = os.clock()
+	-- 5x5x5 mapblocks per chunk
+	assert((maxp.x - minp.x + 1) == 80)
 
-  local chunkpos = citygen.get_chunkpos_from_pos(minp)
-  local min_mapblock, max_mapblock = citygen.get_mapblocks_from_chunk(chunkpos)
+	local min_mapblock = mapblock_lib.get_mapblock(minp)
+	local max_mapblock = mapblock_lib.get_mapblock(maxp)
 
-  local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+	for z=min_mapblock.z,max_mapblock.z do
+	for x=min_mapblock.x,max_mapblock.x do
+	for y=min_mapblock.y,max_mapblock.y do
 
-	local data = vm:get_data()
-	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-  local dirty = false
+		local mapblock_pos = { x=x, y=y, z=z }
+		print(dump(mapblock_pos)) --TODO
 
-  for mapblock_x = min_mapblock.x, max_mapblock.x do
-    for mapblock_y = min_mapblock.y, max_mapblock.y do
-      for mapblock_z = min_mapblock.z, max_mapblock.z do
-        local mapblock_pos = { x = mapblock_x, y = mapblock_y, z = mapblock_z }
-        local min_pos, max_pos = citygen.get_blocks_from_mapblock(mapblock_pos)
+	end --y
+	end --x
+	end --z
 
-				local magic_pos = citygen.get_magic_mapblock_pos(mapblock_pos)
-				local perlin_value = citygen.get_perlin(magic_pos)
+	local diff = os.clock() - start
+	print("[citygen] chunk@minp " .. minetest.pos_to_string(minp) .. " took " .. diff .. " seconds")
 
-				minetest.log("action", "Perlin @ " .. minetest.pos_to_string(mapblock_pos) .. " = " .. perlin_value)
-
-        if citygen.is_street_mapblock(mapblock_pos) then
-            dirty = true
-            citygen.generate_street(data, area, mapblock_pos, min_pos, max_pos)
-        end
-      end
-    end
-  end
-
-
-
-  if dirty then
-    vm:set_data(data)
-    vm:write_to_map()
-  end
 end)

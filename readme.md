@@ -12,15 +12,6 @@ A mod for [minetest](http://www.minetest.net)
 
 State: **WIP**
 
-# TODO
-
-* [x] pilot streets
-* [ ] smaller streets
-* [ ] buildings
-* [ ] factories
-* [ ] parks
-* [ ] sewer
-
 # Licenses
 
 ## Code

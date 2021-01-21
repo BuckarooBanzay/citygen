@@ -13,5 +13,6 @@ read_globals = {
 	"dump", "VoxelArea",
 
 	-- deps
-	"minetest"
+	"minetest",
+	"mapblock_lib"
 }

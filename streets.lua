@@ -1,11 +1,11 @@
 local MP = minetest.get_modpath("citygen")
 
 function citygen.generate_street(mapblock_pos)
-	if mapblock_pos.x % 10 == 0 and mapblock_pos.z % 10 == 0 then
+	if mapblock_pos.x % citygen.road_interval == 0 and mapblock_pos.z % citygen.road_interval == 0 then
 		mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/street/street_all_sides", {
 			use_cache = true
 		})
-	elseif mapblock_pos.x % 10 == 0 then
+	elseif mapblock_pos.x % citygen.road_interval == 0 then
 		mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/street/street_straight", {
 			transform = {
 				rotate = {
@@ -15,7 +15,7 @@ function citygen.generate_street(mapblock_pos)
 				}
 			}
 		})
-	elseif mapblock_pos.z % 10 == 0 then
+	elseif mapblock_pos.z % citygen.road_interval == 0 then
 		mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/street/street_straight", {
 			transform = {
 				rotate = {

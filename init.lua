@@ -1,5 +1,7 @@
 
-citygen = {}
+citygen = {
+	road_interval = 10
+}
 
 local MP = minetest.get_modpath("citygen")
 

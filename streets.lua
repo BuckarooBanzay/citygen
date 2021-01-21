@@ -7,6 +7,7 @@ function citygen.generate_street(mapblock_pos)
 		})
 	elseif mapblock_pos.x % citygen.road_interval == 0 then
 		mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/street/street_straight", {
+			use_cache = true,
 			transform = {
 				rotate = {
 					axis = "y",
@@ -17,6 +18,7 @@ function citygen.generate_street(mapblock_pos)
 		})
 	elseif mapblock_pos.z % citygen.road_interval == 0 then
 		mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/street/street_straight", {
+			use_cache = true,
 			transform = {
 				rotate = {
 					axis = "y",

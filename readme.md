@@ -9,6 +9,8 @@ A mod for [minetest](http://www.minetest.net)
 
 # Overview
 
+<img src="./screenshot.png"/>
+
 State: **WIP**
 
 # Licenses

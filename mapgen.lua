@@ -14,6 +14,10 @@ minetest.register_on_generated(function(minp, maxp)
 			citygen.generate_street(mapblock_pos)
 		end
 
+		if mapblock_pos.y >= 0 and mapblock_pos.y <= 5 then
+			citygen.generate_building(mapblock_pos)
+		end
+
 	end --y
 	end --x
 	end --z

@@ -58,6 +58,9 @@ function citygen.generate_building(mapblock_pos)
 		not is_corner and
 		(xplus_straight or xminus_straight or zplus_straight or zminus_straight)
 
+	local is_road = mapblock_pos.x % citygen.road_interval == 0 or
+		mapblock_pos.z % citygen.road_interval == 0
+
 	if is_corner then
 		if zplus_xplus_corner then
 			options.transform.rotate.angle = 270
@@ -86,6 +89,8 @@ function citygen.generate_building(mapblock_pos)
 			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_lower_corner", options)
 		elseif is_straight then
 			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_lower_straight", options)
+		elseif not is_road then
+			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_lower_center", options)
 		end
 	elseif mapblock_pos.y > 0 and mapblock_pos.y < 5 then
 		-- middle
@@ -100,6 +105,8 @@ function citygen.generate_building(mapblock_pos)
 			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_top_corner", options)
 		elseif is_straight then
 			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_top_straight", options)
+		elseif not is_road then
+			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_top_center", options)
 		end
 	end
 end

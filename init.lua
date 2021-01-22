@@ -6,7 +6,7 @@ citygen = {
 
 local MP = minetest.get_modpath("citygen")
 
-dofile(MP.."/util.lua")
+dofile(MP.."/data.lua")
 dofile(MP.."/streets.lua")
 dofile(MP.."/building.lua")
 dofile(MP.."/mapgen.lua")

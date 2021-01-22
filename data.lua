@@ -29,7 +29,7 @@ function citygen.get_cityblock_data(mapblock_pos)
 	perlin:get_2d_map_flat({x=root_pos.x, y=root_pos.z}, perlin_map)
 
 	local result = {
-		pos = root_pos,
+		root_pos = root_pos,
 		height = math.floor(perlin_map[1] * 10000),
 		size = #perlin_map
 	}
@@ -38,3 +38,19 @@ function citygen.get_cityblock_data(mapblock_pos)
 	cache[cache_key] = result
 	return result
 end
+
+minetest.register_chatcommand("cityblock_data", {
+	func = function(name)
+		local player = minetest.get_player_by_name(name)
+		if not player then
+			return false, "player not found"
+		end
+
+		local pos = player:get_pos()
+
+		local mapblock_pos = mapblock_lib.get_mapblock(pos)
+		local cityblock_data = citygen.get_cityblock_data(mapblock_pos)
+
+		return true, dump(cityblock_data)
+	end
+})

@@ -98,6 +98,8 @@ function citygen.generate_building(mapblock_pos)
 			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_middle_corner", options)
 		elseif is_straight then
 			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_middle_straight", options)
+		elseif not is_road then
+			mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/building/building_middle_center", options)
 		end
 	elseif mapblock_pos.y == 5 then
 		-- top

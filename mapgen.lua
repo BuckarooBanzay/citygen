@@ -9,6 +9,8 @@ minetest.register_on_generated(function(minp, maxp)
 	for x=min_mapblock.x,max_mapblock.x do
 	for y=min_mapblock.y,max_mapblock.y do
 		local mapblock_pos = { x=x, y=y, z=z }
+		local cityblock_data = citygen.get_cityblock_data(mapblock_pos)
+		print("mapblock_pos", dump(mapblock_pos), "cityblock_data", dump(cityblock_data))
 
 		if mapblock_pos.y == 0 then
 			citygen.generate_street(mapblock_pos)

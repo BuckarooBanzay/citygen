@@ -28,10 +28,19 @@ function citygen.get_cityblock_data(mapblock_pos)
 	local perlin_map = {}
 	perlin:get_2d_map_flat({x=root_pos.x, y=root_pos.z}, perlin_map)
 
+	local index = 1
+	local map = {}
+	for x=1, citygen.road_interval do
+		map[x] = {}
+		for z=1, citygen.road_interval do
+			map[x][z] = math.floor(perlin_map[index] * 100)
+			index = index + 1
+		end
+	end
+
 	local result = {
 		root_pos = root_pos,
-		height = math.floor(perlin_map[1] * 10000),
-		size = #perlin_map
+		map = map
 	}
 
 	-- cache computed result
@@ -50,7 +59,8 @@ minetest.register_chatcommand("cityblock_data", {
 
 		local mapblock_pos = mapblock_lib.get_mapblock(pos)
 		local cityblock_data = citygen.get_cityblock_data(mapblock_pos)
+		print(dump(cityblock_data))
 
-		return true, dump(cityblock_data)
+		return true
 	end
 })

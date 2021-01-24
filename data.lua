@@ -9,6 +9,11 @@ local perlin_params = {
 
 local cache = {}
 
+local function clamp(value, min, max)
+	local diff = max - min
+	return math.floor(((value * max * 2) % diff) + min + 0.5)
+end
+
 function citygen.get_cityblock_data(mapblock_pos)
 	-- root position of that cityblock
 	local root_pos = {
@@ -28,14 +33,40 @@ function citygen.get_cityblock_data(mapblock_pos)
 	local perlin_map = {}
 	perlin:get_2d_map_flat({x=root_pos.x, y=root_pos.z}, perlin_map)
 
-	local index = 1
+	-- initialize map
 	local map = {}
 	for x=1, citygen.road_interval do
 		map[x] = {}
-		for z=1, citygen.road_interval do
-			map[x][z] = math.floor(perlin_map[index] * 100)
-			index = index + 1
+	end
+
+
+	local index = 1
+	local x = 1
+	while x < citygen.road_interval do
+		local z=1
+		local size_x = clamp(perlin_map[index], 3, 5)
+		index = index + 1
+		local size_z = clamp(perlin_map[index], 3, 5)
+		index = index + 1
+		local type = clamp(perlin_map[index], 0, 10)
+		index = index + 1
+
+
+		if (x + size_x) > citygen.road_interval then
+			break
 		end
+
+		for map_x=x, x+size_x do
+			for map_z=z, z+size_z do
+				map[map_x][map_z] = {
+					type = type,
+					size_x = size_x,
+					size_z = size_z
+				}
+			end
+		end
+
+		x = x + size_x
 	end
 
 	local result = {

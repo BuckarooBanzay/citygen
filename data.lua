@@ -40,7 +40,7 @@ local function populate_buildings(data, perlin_map, start_x, start_z)
 	local perlin_index = 1
 	local building_size_x = clamp(perlin_map[perlin_index], 3, 5)
 	perlin_index = perlin_index + 1
-	local building_size_y = clamp(perlin_map[perlin_index], 8, 20)
+	local building_size_y = clamp(perlin_map[perlin_index], 4, 10)
 	perlin_index = perlin_index + 1
 	local building_size_z = clamp(perlin_map[perlin_index], 3, 5)
 	perlin_index = perlin_index + 1
@@ -146,37 +146,3 @@ function citygen.get_cityblock(mapblock_pos)
 	cache[cache_key] = result
 	return result
 end
-
-minetest.register_chatcommand("cityblock", {
-	func = function(name)
-		local player = minetest.get_player_by_name(name)
-		if not player then
-			return false, "player not found"
-		end
-
-		local pos = player:get_pos()
-
-		local mapblock_pos = mapblock_lib.get_mapblock(pos)
-		local cityblock_data = citygen.get_cityblock(mapblock_pos)
-		print(dump(cityblock_data))
-
-		return true
-	end
-})
-
-minetest.register_chatcommand("cityblock_mapblock", {
-	func = function(name)
-		local player = minetest.get_player_by_name(name)
-		if not player then
-			return false, "player not found"
-		end
-
-		local pos = player:get_pos()
-
-		local mapblock_pos = mapblock_lib.get_mapblock(pos)
-		local cityblock_data = citygen.get_cityblock_mapblock(mapblock_pos)
-		print(dump(cityblock_data))
-
-		return true
-	end
-})

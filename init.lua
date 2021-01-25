@@ -1,6 +1,6 @@
 
 citygen = {
-	cityblock_size = 10
+	cityblock_size = 20
 }
 
 local MP = minetest.get_modpath("citygen")

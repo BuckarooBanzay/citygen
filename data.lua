@@ -37,45 +37,44 @@ local function populate_streets(data, max_x, max_z)
 	end
 end
 
-local function populate_buildings(data, perlin_map, start_x, start_z, _, _, direction_x, direction_z)
-	-- XXX: create a single building in the corner
-	local perlin_index = 1
-	local building_size_x = clamp(perlin_map[perlin_index], 3, 6)
-	perlin_index = perlin_index + 1
-	local building_size_y = clamp(perlin_map[perlin_index], 3, 10)
-	perlin_index = perlin_index + 1
-	local building_size_z = clamp(perlin_map[perlin_index], 3, 6)
-	perlin_index = perlin_index + 1
-	local building_type = clamp(perlin_map[perlin_index], 1, 20)
+local function generate_building(perlin_fn)
+	local size_x = clamp(perlin_fn(), 3, 6)
+	local size_y = clamp(perlin_fn(), 3, 10)
+	local size_z = clamp(perlin_fn(), 3, 6)
+	local building_type = clamp(perlin_fn(), 1, 20)
 
-	for x=start_x, building_size_x, direction_x do
-		for z=start_z, building_size_z, direction_z do
+	local data = {}
+
+	for x=1, size_x do
+		data[x] = {}
+
+		for z=1, size_z do
 			local def = {
-				height = building_size_y,
+				height = size_y,
 				building = building_type
 			}
-			if x == start_x and z == start_z then
+			if x == 1 and z == 1 then
 				def.type = "corner"
 				def.direction = "x-z-"
-			elseif x == building_size_x and z == building_size_z then
+			elseif x == size_x and z == size_z then
 				def.type = "corner"
 				def.direction = "x+z+"
-			elseif x == building_size_x and z == start_z then
+			elseif x == size_x and z == 1 then
 				def.type = "corner"
 				def.direction = "x+z-"
-			elseif x == start_x and z == building_size_z then
+			elseif x == 1 and z == size_z then
 				def.type = "corner"
 				def.direction = "x-z+"
-			elseif x == start_x then
+			elseif x == 1 then
 				def.type = "edge"
 				def.direction = "x-"
-			elseif z == start_x then
+			elseif z == 1 then
 				def.type = "edge"
 				def.direction = "z-"
-			elseif x == building_size_x then
+			elseif x == size_x then
 				def.type = "edge"
 				def.direction = "x+"
-			elseif z == building_size_z then
+			elseif z == size_z then
 				def.type = "edge"
 				def.direction = "z+"
 			else
@@ -83,6 +82,45 @@ local function populate_buildings(data, perlin_map, start_x, start_z, _, _, dire
 			end
 
 			data[x][z] = def
+		end
+	end
+
+	return data, { x=size_x, z=size_z }
+end
+
+local function populate_buildings(data, perlin_map, from, to)
+
+	local perlin_index = 0
+	local function perlin_fn()
+		perlin_index = perlin_index + 1
+		return perlin_map[perlin_index]
+	end
+
+	local building_def, size = generate_building(perlin_fn)
+	for x=1, size.x do
+		for z=1, size.z do
+			data[x+from.x-1][z+from.z-1] = building_def[x][z]
+		end
+	end
+
+	building_def, size = generate_building(perlin_fn)
+	for x=1, size.x do
+		for z=1, size.z do
+			data[to.x-size.x+x][to.z-size.z+z] = building_def[x][z]
+		end
+	end
+
+	building_def, size = generate_building(perlin_fn)
+	for x=1, size.x do
+		for z=1, size.z do
+			data[x+from.x-1][to.z-size.z+z] = building_def[x][z]
+		end
+	end
+
+	building_def, size = generate_building(perlin_fn)
+	for x=1, size.x do
+		for z=1, size.z do
+			data[to.x-size.x+x][z+from.z-1] = building_def[x][z]
 		end
 	end
 end
@@ -137,7 +175,7 @@ function citygen.get_cityblock(mapblock_pos)
 	end
 
 	populate_streets(data, max_x, max_z)
-	populate_buildings(data, perlin_map, 2, 2, max_x, max_z, 1, 1)
+	populate_buildings(data, perlin_map, {x=2, z=2}, {x=max_x, z=max_z})
 
 	local result = {
 		root_pos = root_pos,

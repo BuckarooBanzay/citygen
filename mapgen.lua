@@ -9,15 +9,14 @@ minetest.register_on_generated(function(minp, maxp)
 	for x=min_mapblock.x,max_mapblock.x do
 	for y=min_mapblock.y,max_mapblock.y do
 		local mapblock_pos = { x=x, y=y, z=z }
-		local cityblock_data = citygen.get_cityblock_data(mapblock_pos)
-		print("mapblock_pos", dump(mapblock_pos), "cityblock_data", dump(cityblock_data))
+		local data = citygen.get_cityblock_mapblock(mapblock_pos)
 
-		if mapblock_pos.y == 0 then
-			citygen.generate_street(mapblock_pos)
-		end
-
-		if mapblock_pos.y >= 0 and mapblock_pos.y <= 5 then
-			citygen.generate_building(mapblock_pos)
+		if data then
+			if data.street then
+				citygen.render_street(mapblock_pos, data)
+			elseif data.building then
+				citygen.render_building(mapblock_pos, data)
+			end
 		end
 
 	end --y

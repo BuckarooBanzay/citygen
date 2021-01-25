@@ -1,12 +1,10 @@
 
 citygen = {
-	road_interval = 10,
-	road_crossing_interval = 5
+	cityblock_size = 10
 }
 
 local MP = minetest.get_modpath("citygen")
 
 dofile(MP.."/data.lua")
-dofile(MP.."/streets.lua")
-dofile(MP.."/building.lua")
+dofile(MP.."/render.lua")
 dofile(MP.."/mapgen.lua")

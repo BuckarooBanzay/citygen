@@ -5,28 +5,31 @@ function citygen.render_street(mapblock_pos, data)
 		return
 	end
 
-	local options = {
-		use_cache = true
-	}
+	local angle = 0
 	local schematic
 
 	if data.direction == "all" then
 		schematic = MP .. "/schematics/street/street_all_sides"
-	elseif data.direction == "x+x-" then
+	elseif data.crossing then
+		schematic = MP .. "/schematics/street/street_straight_crossing"
+	else
 		schematic = MP .. "/schematics/street/street_straight"
-	elseif data.direction == "z+z-" then
-		schematic = MP .. "/schematics/street/street_straight"
-		options.transform = {
+	end
+
+	if data.direction == "z+z-" then
+		angle = 90
+	end
+
+	mapblock_lib.deserialize(mapblock_pos, schematic, {
+		use_cache = true,
+		transform = {
 			rotate = {
 				axis = "y",
-				angle = 90,
+				angle = angle,
 				disable_orientation = true
 			}
 		}
-	end
-
--- schematic = MP .. "/schematics/street/street_straight_crossing"
-	mapblock_lib.deserialize(mapblock_pos, schematic, options)
+	})
 end
 
 

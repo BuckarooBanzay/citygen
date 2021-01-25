@@ -23,6 +23,7 @@ local function populate_streets(data, max_x, max_z)
 	for x=2, max_x do
 		data[x][1] = {
 			street = true,
+			crossing = x % 4 == 0,
 			direction = "x+x-"
 		}
 	end
@@ -30,6 +31,7 @@ local function populate_streets(data, max_x, max_z)
 	for z=2, max_z do
 		data[1][z] = {
 			street = true,
+			crossing = z % 4 == 0,
 			direction = "z+z-"
 		}
 	end
@@ -38,11 +40,11 @@ end
 local function populate_buildings(data, perlin_map, start_x, start_z, _, _, direction_x, direction_z)
 	-- XXX: create a single building in the corner
 	local perlin_index = 1
-	local building_size_x = clamp(perlin_map[perlin_index], 3, 5)
+	local building_size_x = clamp(perlin_map[perlin_index], 3, 6)
 	perlin_index = perlin_index + 1
-	local building_size_y = clamp(perlin_map[perlin_index], 4, 10)
+	local building_size_y = clamp(perlin_map[perlin_index], 3, 10)
 	perlin_index = perlin_index + 1
-	local building_size_z = clamp(perlin_map[perlin_index], 3, 5)
+	local building_size_z = clamp(perlin_map[perlin_index], 3, 6)
 	perlin_index = perlin_index + 1
 	local building_type = clamp(perlin_map[perlin_index], 1, 20)
 

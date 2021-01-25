@@ -35,7 +35,7 @@ local function populate_streets(data, max_x, max_z)
 	end
 end
 
-local function populate_buildings(data, perlin_map, start_x, start_z)
+local function populate_buildings(data, perlin_map, start_x, start_z, _, _, direction_x, direction_z)
 	-- XXX: create a single building in the corner
 	local perlin_index = 1
 	local building_size_x = clamp(perlin_map[perlin_index], 3, 5)
@@ -46,8 +46,8 @@ local function populate_buildings(data, perlin_map, start_x, start_z)
 	perlin_index = perlin_index + 1
 	local building_type = clamp(perlin_map[perlin_index], 1, 20)
 
-	for x=start_x, building_size_x do
-		for z=start_z, building_size_z do
+	for x=start_x, building_size_x, direction_x do
+		for z=start_z, building_size_z, direction_z do
 			local def = {
 				height = building_size_y,
 				building = building_type
@@ -135,7 +135,7 @@ function citygen.get_cityblock(mapblock_pos)
 	end
 
 	populate_streets(data, max_x, max_z)
-	populate_buildings(data, perlin_map, 2, 2, max_x, max_z)
+	populate_buildings(data, perlin_map, 2, 2, max_x, max_z, 1, 1)
 
 	local result = {
 		root_pos = root_pos,

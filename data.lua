@@ -144,7 +144,7 @@ function citygen.get_cityblock_mapblock(mapblock_pos)
 	if cityblock.data and cityblock.data[rel_pos_x] and cityblock.data[rel_pos_x][rel_pos_z] then
 		return cityblock.data[rel_pos_x][rel_pos_z]
 	else
-		return
+		return {}
 	end
 end
 

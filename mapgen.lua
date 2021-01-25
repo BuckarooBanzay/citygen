@@ -11,12 +11,10 @@ minetest.register_on_generated(function(minp, maxp)
 		local mapblock_pos = { x=x, y=y, z=z }
 		local data = citygen.get_cityblock_mapblock(mapblock_pos)
 
-		if data then
-			if data.street then
-				citygen.render_street(mapblock_pos, data)
-			elseif data.building then
-				citygen.render_building(mapblock_pos, data)
-			end
+		if data.street then
+			citygen.render_street(mapblock_pos, data)
+		elseif data.building then
+			citygen.render_building(mapblock_pos, data)
 		end
 
 	end --y

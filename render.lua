@@ -1,5 +1,37 @@
 local MP = minetest.get_modpath("citygen")
 
+function citygen.render_sewer(mapblock_pos, data)
+	if mapblock_pos.y ~= -1 then
+		return
+	end
+
+	local angle = 0
+	local schematic
+
+	if data.direction == "all" then
+		schematic = MP .. "/schematics/sewer/sewer_all_sides"
+	elseif data.sewer_access then
+		schematic = MP .. "/schematics/sewer/sewer_straight_access"
+	else
+		schematic = MP .. "/schematics/sewer/sewer_straight"
+	end
+
+	if data.direction == "z+z-" then
+		angle = 90
+	end
+
+	mapblock_lib.deserialize(mapblock_pos, schematic, {
+		use_cache = true,
+		transform = {
+			rotate = {
+				axis = "y",
+				angle = angle,
+				disable_orientation = true
+			}
+		}
+	})
+end
+
 function citygen.render_street(mapblock_pos, data)
 	if mapblock_pos.y ~= 0 then
 		return
@@ -10,6 +42,8 @@ function citygen.render_street(mapblock_pos, data)
 
 	if data.direction == "all" then
 		schematic = MP .. "/schematics/street/street_all_sides"
+	elseif data.sewer_access then
+		schematic = MP .. "/schematics/street/street_straight_sewer_access"
 	elseif data.crossing then
 		schematic = MP .. "/schematics/street/street_straight_crossing"
 	else

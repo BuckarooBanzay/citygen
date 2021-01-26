@@ -88,6 +88,25 @@ local function generate_building(perlin_fn)
 	return data, { x=size_x, z=size_z }
 end
 
+local function copy_building(building_def, data, offset)
+	for x=1, #building_def do
+		for z=1, #building_def[x] do
+			data[x+offset.x][z+offset.z] = building_def[x][z]
+		end
+	end
+end
+
+local function building_fits(building_def, data, offset)
+	for x=1, #building_def do
+		for z=1, #building_def[x] do
+			if data[x+offset.x][z+offset.z] then
+				return false
+			end
+		end
+	end
+	return true
+end
+
 local function populate_buildings(data, perlin_map, from, to)
 
 	local perlin_index = 0
@@ -96,33 +115,28 @@ local function populate_buildings(data, perlin_map, from, to)
 		return perlin_map[perlin_index]
 	end
 
-	local building_def, size = generate_building(perlin_fn)
-	for x=1, size.x do
-		for z=1, size.z do
-			data[x+from.x-1][z+from.z-1] = building_def[x][z]
+	-- generate buildings in the corners
+	local building_def = generate_building(perlin_fn)
+	local size
+	copy_building(building_def, data, {x=from.x-1, z=from.z-1})
+	building_def, size = generate_building(perlin_fn)
+	copy_building(building_def, data, {x=to.x-size.x, z=to.z-size.z})
+	building_def, size = generate_building(perlin_fn)
+	copy_building(building_def, data, {x=from.x-1, z=to.z-size.z})
+	building_def, size = generate_building(perlin_fn)
+	copy_building(building_def, data, {x=to.x-size.x, z=from.z-1})
+
+	-- generate along lower x edge
+	for x = from.x, to.x do
+		if not data[x][from.z] then
+			building_def = generate_building(perlin_fn)
+			local offset = { x=x-1, z=from.z-1 }
+			if building_fits(building_def, data, offset) then
+				copy_building(building_def, data, offset)
+			end
 		end
 	end
 
-	building_def, size = generate_building(perlin_fn)
-	for x=1, size.x do
-		for z=1, size.z do
-			data[to.x-size.x+x][to.z-size.z+z] = building_def[x][z]
-		end
-	end
-
-	building_def, size = generate_building(perlin_fn)
-	for x=1, size.x do
-		for z=1, size.z do
-			data[x+from.x-1][to.z-size.z+z] = building_def[x][z]
-		end
-	end
-
-	building_def, size = generate_building(perlin_fn)
-	for x=1, size.x do
-		for z=1, size.z do
-			data[to.x-size.x+x][z+from.z-1] = building_def[x][z]
-		end
-	end
 end
 
 -- returns the root-position for the cityblock

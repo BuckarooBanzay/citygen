@@ -120,6 +120,7 @@ local function populate_buildings(data, perlin_map, from, to)
 	while x < to.x do
 		local remaining_size = to.x - x + 1
 		if remaining_size < 3 then
+			-- this should not happen if the below code work properly
 			break
 		end
 		local min_x_size = 3
@@ -130,16 +131,43 @@ local function populate_buildings(data, perlin_map, from, to)
 
 		local building_def, size = generate_building(perlin_fn, {
 			min_x = math.min(min_x_size, remaining_size),
-			max_x = math.min(6, remaining_size),
+			max_x = math.min(8, remaining_size),
 			min_y = 3,
-			max_y = 7,
+			max_y = 10,
 			min_z = size_z,
 			max_z = size_z
 		})
-		print("x", x, "from.z", from.z, "from.x", from.x, "remaining_size", remaining_size)
 		copy_building(building_def, data, {x=x, z=from.z})
 
 		x = x + size.x
+	end
+
+	local size_x = clamp(perlin_fn(), 3, 5)
+
+	local z = from.z + size_z
+	while z < to.z do
+		local remaining_size = to.z - z + 1
+		if remaining_size < 3 then
+			-- this should not happen if the below code work properly
+			break
+		end
+		local min_z_size = 3
+		if remaining_size < 6 then
+			-- fit last building to remaining size
+			min_z_size = remaining_size
+		end
+
+		local building_def, size = generate_building(perlin_fn, {
+			min_z = math.min(min_z_size, remaining_size),
+			max_z = math.min(8, remaining_size),
+			min_y = 3,
+			max_y = 10,
+			min_x = size_x,
+			max_x = size_x
+		})
+		copy_building(building_def, data, {x=from.x, z=z})
+
+		z = z + size.z
 	end
 
 

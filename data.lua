@@ -11,6 +11,10 @@ local cache = {}
 
 local function clamp(value, min, max)
 	local diff = max - min
+	if diff < 1 then
+		-- same values for min and max provided
+		return min
+	end
 	return math.floor(((value * max * 2) % diff) + min + 0.5)
 end
 
@@ -39,10 +43,11 @@ local function populate_streets(data, max_x, max_z)
 	end
 end
 
-local function generate_building(perlin_fn)
-	local size_x = clamp(perlin_fn(), 3, 6)
-	local size_y = clamp(perlin_fn(), 3, 10)
-	local size_z = clamp(perlin_fn(), 3, 6)
+local function generate_building(perlin_fn, options)
+	options = options or {}
+	local size_x = clamp(perlin_fn(), options.min_x or 3, options.max_x or 6)
+	local size_y = clamp(perlin_fn(), options.min_y or 3, options.max_y or 10)
+	local size_z = clamp(perlin_fn(), options.min_z or 3, options.max_z or 6)
 	local building_type = clamp(perlin_fn(), 1, 20)
 
 	local data = {}
@@ -93,20 +98,9 @@ end
 local function copy_building(building_def, data, offset)
 	for x=1, #building_def do
 		for z=1, #building_def[x] do
-			data[x+offset.x][z+offset.z] = building_def[x][z]
+			data[x+offset.x-1][z+offset.z-1] = building_def[x][z]
 		end
 	end
-end
-
-local function building_fits(building_def, data, offset)
-	for x=1, #building_def do
-		for z=1, #building_def[x] do
-			if data[x+offset.x][z+offset.z] then
-				return false
-			end
-		end
-	end
-	return true
 end
 
 local function populate_buildings(data, perlin_map, from, to)
@@ -114,30 +108,40 @@ local function populate_buildings(data, perlin_map, from, to)
 	local perlin_index = 0
 	local function perlin_fn()
 		perlin_index = perlin_index + 1
+		if perlin_index > #perlin_map then
+			error("ran out of perlin noise!")
+		end
 		return perlin_map[perlin_index]
 	end
 
-	-- generate buildings in the corners
-	local building_def = generate_building(perlin_fn)
-	local size
-	copy_building(building_def, data, {x=from.x-1, z=from.z-1})
-	building_def, size = generate_building(perlin_fn)
-	copy_building(building_def, data, {x=to.x-size.x, z=to.z-size.z})
-	building_def, size = generate_building(perlin_fn)
-	copy_building(building_def, data, {x=from.x-1, z=to.z-size.z})
-	building_def, size = generate_building(perlin_fn)
-	copy_building(building_def, data, {x=to.x-size.x, z=from.z-1})
 
-	-- generate along lower x edge
-	for x = from.x, to.x do
-		if not data[x][from.z] then
-			building_def = generate_building(perlin_fn)
-			local offset = { x=x-1, z=from.z-1 }
-			if building_fits(building_def, data, offset) then
-				copy_building(building_def, data, offset)
-			end
+	local x = from.x
+	local size_z = clamp(perlin_fn(), 3, 5)
+	while x < to.x do
+		local remaining_size = to.x - x + 1
+		if remaining_size < 3 then
+			break
 		end
+		local min_x_size = 3
+		if remaining_size < 6 then
+			-- fit last building to remaining size
+			min_x_size = remaining_size
+		end
+
+		local building_def, size = generate_building(perlin_fn, {
+			min_x = math.min(min_x_size, remaining_size),
+			max_x = math.min(6, remaining_size),
+			min_y = 3,
+			max_y = 7,
+			min_z = size_z,
+			max_z = size_z
+		})
+		print("x", x, "from.z", from.z, "from.x", from.x, "remaining_size", remaining_size)
+		copy_building(building_def, data, {x=x, z=from.z})
+
+		x = x + size.x
 	end
+
 
 end
 

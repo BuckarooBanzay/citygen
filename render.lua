@@ -25,8 +25,7 @@ function citygen.render_sewer(mapblock_pos, data)
 		transform = {
 			rotate = {
 				axis = "y",
-				angle = angle,
-				disable_orientation = true
+				angle = angle
 			}
 		}
 	})
@@ -60,7 +59,9 @@ function citygen.render_street(mapblock_pos, data)
 			rotate = {
 				axis = "y",
 				angle = angle,
-				disable_orientation = true
+				disable_orientation = {
+					["default:stonebrick"] = true
+				}
 			}
 		}
 	})

@@ -122,7 +122,7 @@ local function populate_buildings(data, perlin_map, offset, size)
 		local remaining_size = size.x - x
 		local min_x_size = 3
 		local last_building = false
-		if remaining_size < 8 then
+		if remaining_size < 10 then
 			-- fit last building to remaining size
 			min_x_size = remaining_size
 			last_building = true
@@ -151,7 +151,7 @@ local function populate_buildings(data, perlin_map, offset, size)
 		local remaining_size = size.z - z
 		local min_z_size = 3
 		local last_building = false
-		if remaining_size < 8 then
+		if remaining_size < 10 then
 			-- fit last building to remaining size
 			min_z_size = remaining_size
 			last_building = true
@@ -210,7 +210,7 @@ local function populate_buildings(data, perlin_map, offset, size)
 		local remaining_size = max_z - z
 		local min_z_size = 3
 		local last_building = false
-		if remaining_size < 8 then
+		if remaining_size < 10 then
 			-- fit last building to remaining size
 			min_z_size = remaining_size
 			last_building = true
@@ -229,6 +229,31 @@ local function populate_buildings(data, perlin_map, offset, size)
 		z = z + building_size.z
 		if last_building then
 			break
+		end
+	end
+end
+
+local function is_edge(entry)
+	return entry and entry.type == "edge"
+end
+
+local function detect_closed_edges(data)
+	for x=1, #data do
+		for z=1, #data[x] do
+			local entry = data[x][z]
+
+			if is_edge(entry) then
+				if entry.direction == "x+" and x < #data then
+					entry.closed = is_edge(data[x+1][z])
+				elseif entry.direction == "x-" and x > 1 then
+					entry.closed = is_edge(data[x-1][z])
+				elseif entry.direction == "z+" and z < #data[x] then
+					entry.closed = is_edge(data[x][z+1])
+				elseif entry.direction == "z-" and z > 1 then
+					entry.closed = is_edge(data[x][z-1])
+				end
+
+			end
 		end
 	end
 end
@@ -284,6 +309,7 @@ function citygen.get_cityblock(mapblock_pos)
 
 	populate_streets(data, max_x, max_z)
 	populate_buildings(data, perlin_map, {x=1, z=1}, {x=max_x-1, z=max_z-1})
+	detect_closed_edges(data)
 
 	-- fill the rest with a stone platform
 	for x=2, max_x do

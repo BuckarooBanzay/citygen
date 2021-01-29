@@ -103,6 +103,10 @@ function citygen.render_building(mapblock_pos, data)
 		else
 			schematic = MP .. "/schematics/building/building_middle_straight"
 		end
+		if data.closed then
+			-- closed corner
+			schematic = schematic .. "_closed"
+		end
 	elseif data.type == "corner" then
 		if is_bottom then
 			schematic = MP .. "/schematics/building/building_lower_corner"

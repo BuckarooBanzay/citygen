@@ -26,8 +26,7 @@ minetest.register_chatcommand("cityblock_mapblock", {
 
 		local mapblock_pos = mapblock_lib.get_mapblock(pos)
 		local cityblock_data = citygen.get_cityblock_mapblock(mapblock_pos)
-		print(dump(cityblock_data))
 
-		return true
+		return true, dump(cityblock_data)
 	end
 })

@@ -67,6 +67,15 @@ function citygen.render_street(mapblock_pos, data)
 	})
 end
 
+function citygen.render_platform(mapblock_pos)
+	if mapblock_pos.y ~= 0 then
+		return
+	end
+
+	mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/base/stone_base", {
+		use_cache = true
+	})
+end
 
 function citygen.render_building(mapblock_pos, data)
 	if mapblock_pos.y < 0 or mapblock_pos.y > data.height then

@@ -16,6 +16,8 @@ minetest.register_on_generated(function(minp, maxp)
 			citygen.render_sewer(mapblock_pos, data)
 		elseif data.building then
 			citygen.render_building(mapblock_pos, data)
+		elseif data.platform then
+			citygen.render_platform(mapblock_pos, data)
 		end
 
 	end --y

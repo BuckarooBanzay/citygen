@@ -82,40 +82,36 @@ function citygen.render_building(mapblock_pos, data)
 		return
 	end
 
+	local building_def = citygen.buildings[data.building_type]
+	assert(building_def)
+
 	local is_bottom = mapblock_pos.y == 0
 	local is_top = mapblock_pos.y == data.height
 
+	local three_slice
+	if data.type == "inner" then
+		three_slice = building_def.schematics.center
+	elseif data.type == "edge" and not data.closed then
+		three_slice = building_def.schematics.edge
+	elseif data.type == "edge" and data.closed then
+		three_slice = building_def.schematics.edge_closed
+	elseif data.type == "corner" then
+		three_slice = building_def.schematics.corner
+	end
+
+	assert(three_slice)
+
 	local schematic
 
-	if data.type == "inner" then
-		if is_bottom then
-			schematic = MP .. "/schematics/building/building_lower_center"
-		elseif is_top then
-			schematic = MP .. "/schematics/building/building_top_center"
-		else
-			schematic = MP .. "/schematics/building/building_middle_center"
-		end
-	elseif data.type == "edge" then
-		if is_bottom then
-			schematic = MP .. "/schematics/building/building_lower_straight"
-		elseif is_top then
-			schematic = MP .. "/schematics/building/building_top_straight"
-		else
-			schematic = MP .. "/schematics/building/building_middle_straight"
-		end
-		if data.closed then
-			-- closed corner
-			schematic = schematic .. "_closed"
-		end
-	elseif data.type == "corner" then
-		if is_bottom then
-			schematic = MP .. "/schematics/building/building_lower_corner"
-		elseif is_top then
-			schematic = MP .. "/schematics/building/building_top_corner"
-		else
-			schematic = MP .. "/schematics/building/building_middle_corner"
-		end
+	if is_top then
+		schematic = three_slice.top
+	elseif is_bottom then
+		schematic = three_slice.bottom
+	else
+		schematic = three_slice.middle
 	end
+
+	assert(schematic)
 
 	local angle = 0
 
@@ -136,7 +132,8 @@ function citygen.render_building(mapblock_pos, data)
 				rotate = {
 					axis = "y",
 					angle = angle
-				}
+				},
+				replace = building_def.replace
 			}
 		}
 

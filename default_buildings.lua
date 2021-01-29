@@ -64,3 +64,32 @@ citygen.register_building({
 		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_desert_stonebrick"
 	}
 })
+
+local default_schematics2 = {
+	corner = {
+		bottom = MP .. "/schematics/building2/building_lower_corner",
+		middle = MP .. "/schematics/building2/building_middle_corner",
+		top = MP .. "/schematics/building2/building_top_corner"
+	},
+	edge = {
+		bottom = MP .. "/schematics/building2/building_lower_straight",
+		middle = MP .. "/schematics/building2/building_middle_straight",
+		top = MP .. "/schematics/building2/building_top_straight"
+	},
+	edge_closed = {
+		bottom = MP .. "/schematics/building2/building_lower_straight_closed",
+		middle = MP .. "/schematics/building2/building_middle_straight_closed",
+		top = MP .. "/schematics/building2/building_top_straight_closed"
+	},
+	center = {
+		bottom = MP .. "/schematics/building2/building_lower_center",
+		middle = MP .. "/schematics/building2/building_middle_center",
+		top = MP .. "/schematics/building2/building_top_center"
+	}
+}
+
+citygen.register_building({
+	name = "citygen:default_building2",
+	type = "12-part-template",
+	schematics = default_schematics2
+})

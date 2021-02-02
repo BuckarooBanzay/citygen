@@ -96,3 +96,23 @@ citygen.register_building({
 	type = "12-part-template",
 	schematics = default_schematics2
 })
+
+citygen.register_building({
+	name = "citygen:default_building2_iron",
+	type = "12-part-template",
+	schematics = default_schematics2,
+	replace = {
+		["moreblocks:coal_glass"] = "moreblocks:clean_glass",
+		["moreblocks:coal_stone"] = "moreblocks:iron_stone",
+		["moreblocks:slope_coal_glass"] = "moreblocks:slope_clean_glass",
+		["moreblocks:checker_stone_tile"] = "moreblocks:iron_checker",
+		["moreblocks:coal_stone_bricks"] = "moreblocks:iron_stone_bricks",
+		["moreblocks:stair_coal_stone"] = "moreblocks:stair_iron_stone",
+		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_iron_stone_bricks",
+		["moreblocks:stair_coal_stone_bricks_outer"] = "moreblocks:stair_iron_stone_bricks_outer",
+		["moreblocks:slope_coal_stone_half_raised"] = "moreblocks:slope_iron_stone_half_raised",
+		["moreblocks:slope_coal_stone_inner_cut"] = "moreblocks:slope_iron_stone_inner_cut",
+		["moreblocks:slope_coal_stone_inner_half_raised"] = "moreblocks:slope_iron_stone_inner_half_raised",
+		["moreblocks:slope_coal_stone_outer_cut_half_raised"] = "moreblocks:slope_iron_stone_outer_cut_half_raised"
+	}
+})

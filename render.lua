@@ -72,7 +72,7 @@ function citygen.render_platform(mapblock_pos)
 		return
 	end
 
-	mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/base/stone_base", {
+	mapblock_lib.deserialize(mapblock_pos, MP .. "/schematics/base/grass_base", {
 		use_cache = true
 	})
 end

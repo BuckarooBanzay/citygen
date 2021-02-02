@@ -38,7 +38,8 @@ citygen.register_building({
 		["moreblocks:coal_glass"] = "moreblocks:clean_glass",
 		["moreblocks:checker_stone_tile"] = "moreblocks:iron_checker",
 		["moreblocks:coal_stone_bricks"] = "moreblocks:iron_stone_bricks",
-		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_iron_stone_bricks"
+		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_iron_stone_bricks",
+		["moreblocks:stair_coal_stone_bricks_outer"] = "moreblocks:stair_iron_stone_bricks_outer",
 	}
 })
 
@@ -50,7 +51,8 @@ citygen.register_building({
 		["moreblocks:coal_stone"] = "default:desert_sandstone",
 		["moreblocks:coal_glass"] = "default:glass",
 		["moreblocks:coal_stone_bricks"] = "default:desert_sandstone_brick",
-		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_desert_sandstone_brick"
+		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_desert_sandstone_brick",
+		["moreblocks:stair_coal_stone_bricks_outer"] = "moreblocks:stair_desert_sandstone_brick_outer",
 	}
 })
 
@@ -61,7 +63,8 @@ citygen.register_building({
 	replace = {
 		["moreblocks:coal_stone"] = "default:desert_stone",
 		["moreblocks:coal_stone_bricks"] = "default:desert_stonebrick",
-		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_desert_stonebrick"
+		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_desert_stonebrick",
+		["moreblocks:stair_coal_stone_bricks_outer"] = "moreblocks:stair_desert_stonebrick_outer",
 	}
 })
 

@@ -145,3 +145,17 @@ citygen.register_building({
 	type = "12-part-template",
 	schematics = default_schematics3
 })
+
+citygen.register_building({
+	name = "citygen:default_building3_iron",
+	type = "12-part-template",
+	schematics = default_schematics3,
+	replace = {
+		["moreblocks:coal_stone"] = "moreblocks:iron_stone",
+		["moreblocks:coal_glass"] = "moreblocks:clean_glass",
+		["moreblocks:checker_stone_tile"] = "moreblocks:iron_checker",
+		["moreblocks:slope_coal_stone"] = "moreblocks:slope_iron_stone",
+		["moreblocks:slope_coal_stone_inner"] = "moreblocks:slope_iron_stone_inner",
+		["moreblocks:slope_coal_stone_outer"] = "moreblocks:slope_iron_stone_outer",
+	}
+})

@@ -76,6 +76,26 @@ The streetnames are picked randomly (depending on the x/z position of the street
 The premade schematics are deseiralized onto the map with the help of the [mapblock_lib](https://github.com/BuckarooBanzay/mapblock_lib).
 Some buildings have different variants with custom node-replacements, see: [default_buildings.lua](default_buildings.lua)
 
+The schematics for a building contain 12 parts that get assembled depending on their position (bottom, corner, etc).
+An example of the 12 parts in "exploded" view:
+
+<img src="./12-slice.png"/>
+
+Each part can be edited by copying the files (manifest- and bin-file) out of the `schematics/building/` folder
+and placing them into the `<worldfolder>/mapblocks/` folder.
+
+Loading and saving the parts from the world and to disk is done with the `mapblock_lib` commands:
+* `/mapblock_load <name>`
+* `/mapblock_save <name>`
+
+For example:
+```bash
+mkdir /my/world/mapblocks
+cp schematics/street/street_all_sides* /my/world/mapblocks/
+```
+
+Ingame: `/mapblock_load street_all_sides` for loading and `/mapblock_save street_all_sides` to save
+
 # Licenses
 
 ## Code

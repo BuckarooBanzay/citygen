@@ -1,8 +1,10 @@
 
+local rnd = tonumber(string.sub(minetest.get_mapgen_setting("seed"), 1, 7))
+
 function citygen.plot_streets(root_pos, data, max_x, max_z)
 	-- TODO: pick and generate random street name
-	local x_streetname = "X Streetname " .. root_pos.z
-	local z_streetname = "Z Streetname " .. root_pos.x
+	local x_streetname = citygen.get_street_name(rnd + root_pos.z)
+	local z_streetname = citygen.get_street_name(rnd + 2048 + root_pos.x)
 
 	data[1][1] = {
 		street = true,

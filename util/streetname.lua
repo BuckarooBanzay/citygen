@@ -19,8 +19,14 @@ end
 local prefixes = readvalues(MP .. "/util/street_prefixes.txt")
 local suffixes = readvalues(MP .. "/util/street_suffixes.txt")
 
+function citygen.get_street_name(rnd_num)
+	local prefix_n = rnd_num % #prefixes
+	local suffix_n = rnd_num % #suffixes
+	return prefixes[prefix_n] .. " " .. suffixes[suffix_n]
+end
+
 minetest.register_chatcommand("streetname", {
-	func = function()
-		return true, prefixes[math.random(#prefixes)] .. " " .. suffixes[math.random(#suffixes)]
+	func = function(_, p)
+		return true, citygen.get_street_name(tonumber(p))
 	end
 })

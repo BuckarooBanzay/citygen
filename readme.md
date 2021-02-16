@@ -6,6 +6,7 @@ citygen -- minetest city mapgenerator
 A mod for [minetest](http://www.minetest.net)
 
 ![](https://github.com/BuckarooBanzay/citygen/workflows/luacheck/badge.svg)
+[![ContentDB](https://content.minetest.net/packages/BuckarooBanzay/citygen/shields/downloads/)](https://content.minetest.net/packages/BuckarooBanzay/citygen/)
 
 # Overview
 

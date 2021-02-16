@@ -1,4 +1,5 @@
 local MP = minetest.get_modpath("citygen")
+local has_street_signs_mod = minetest.get_modpath("street_signs")
 
 function citygen.render_sewer(mapblock_pos, data)
 	if mapblock_pos.y ~= -1 then
@@ -60,11 +61,24 @@ function citygen.render_street(mapblock_pos, data)
 				axis = "y",
 				angle = angle,
 				disable_orientation = {
-					["default:stonebrick"] = true
+					["default:stonebrick"] = true,
+					["street_signs:sign_basic"] = true
 				}
 			}
 		}
 	})
+
+	if has_street_signs_mod then
+		-- draw street names onto signs
+		local min, max = mapblock_lib.get_mapblock_bounds_from_mapblock(mapblock_pos)
+		local street_signs = minetest.find_nodes_in_area(min, max, {"street_signs:sign_basic"})
+		for _, pos in ipairs(street_signs) do
+			local meta = minetest.get_meta(pos)
+			local txt = data.z_streetname .. "\n" .. data.x_streetname
+			meta:set_string("infotext", txt)
+			meta:set_string("text", txt)
+		end
+	end
 end
 
 function citygen.render_platform(mapblock_pos)

@@ -39,7 +39,7 @@ function citygen.get_cityblock(mapblock_pos)
 		data[x] = {}
 	end
 
-	citygen.plot_streets(data, max_x, max_z)
+	citygen.plot_streets(root_pos, data, max_x, max_z)
 	citygen.plot_buildings(data, perlin_manager, {x=1, z=1}, {x=max_x-1, z=max_z-1})
 
 	-- fill the rest with a stone platform

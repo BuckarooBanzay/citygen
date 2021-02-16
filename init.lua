@@ -16,3 +16,5 @@ dofile(MP.."/cityblock.lua")
 dofile(MP.."/render.lua")
 dofile(MP.."/mapgen.lua")
 dofile(MP.."/chatcommands.lua")
+
+dofile(MP.."/util/streetname.lua")

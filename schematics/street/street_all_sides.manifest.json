@@ -1,1 +1,1 @@
-{"node_mapping":{"air":126.0,"default:gravel":40.0,"default:stone":4.0,"default:stonebrick":6.0,"morelights_modern:barlight_c":517.0,"morelights_modern:streetpost_d":515.0,"street_signs:sign_basic":211.0},"version":2.0}
+{"air_only":false,"metadata":{"meta":{"(12,3,12)":{"fields":{"infotext":"x\ny ","text":"x\ny"},"inventory":null},"(3,3,3)":{"fields":{"infotext":"x\ny ","text":"x\ny"},"inventory":null}}},"node_mapping":{"air":126,"default:gravel":37,"default:stone":1,"default:stonebrick":3,"street_signs:sign_basic":208},"version":2}

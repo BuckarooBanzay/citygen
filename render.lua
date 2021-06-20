@@ -32,6 +32,11 @@ function citygen.render_sewer(mapblock_pos, data)
 	})
 end
 
+local content_street_sign = -1
+if has_street_signs_mod then
+	content_street_sign = minetest.get_content_id("street_signs:sign_basic")
+end
+
 function citygen.render_street(mapblock_pos, data)
 	if mapblock_pos.y ~= 0 then
 		return
@@ -65,20 +70,16 @@ function citygen.render_street(mapblock_pos, data)
 					["street_signs:sign_basic"] = true
 				}
 			}
-		}
-	})
-
-	if has_street_signs_mod then
-		-- draw street names onto signs
-		local min, max = mapblock_lib.get_mapblock_bounds_from_mapblock(mapblock_pos)
-		local street_signs = minetest.find_nodes_in_area(min, max, {"street_signs:sign_basic"})
-		for _, pos in ipairs(street_signs) do
-			local meta = minetest.get_meta(pos)
-			local txt = data.z_streetname .. "\n" .. data.x_streetname
-			meta:set_string("infotext", txt)
-			meta:set_string("text", txt)
+		},
+		on_metadata = function(_, content_id, meta)
+			if content_id == content_street_sign then
+				-- write street name
+				local txt = data.z_streetname .. "\n" .. data.x_streetname
+				meta:set_string("infotext", txt)
+				meta:set_string("text", txt)
+			end
 		end
-	end
+	})
 end
 
 function citygen.render_platform(mapblock_pos)

@@ -1,7 +1,5 @@
 
 minetest.register_on_generated(function(minp, maxp)
-	local start = os.clock()
-
 	local min_mapblock = mapblock_lib.get_mapblock(minp)
 	local max_mapblock = mapblock_lib.get_mapblock(maxp)
 
@@ -23,8 +21,4 @@ minetest.register_on_generated(function(minp, maxp)
 	end --y
 	end --x
 	end --z
-
-	local diff = os.clock() - start
-	print("[citygen] chunk@minp " .. minetest.pos_to_string(minp) .. " took " .. diff .. " seconds")
-
 end)

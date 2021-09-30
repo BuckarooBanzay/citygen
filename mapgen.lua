@@ -8,16 +8,7 @@ minetest.register_on_generated(function(minp, maxp)
 	for y=min_mapblock.y,max_mapblock.y do
 		local mapblock_pos = { x=x, y=y, z=z }
 		local data = citygen.get_cityblock_mapblock(mapblock_pos)
-
-		if data.groups.street then
-			citygen.render_street(mapblock_pos, data)
-			citygen.render_sewer(mapblock_pos, data)
-		elseif data.groups.building then
-			citygen.render_building(mapblock_pos, data)
-		elseif data.groups.platform then
-			citygen.render_platform(mapblock_pos, data)
-		end
-
+		citygen.fire_renderers(mapblock_pos, data)
 	end --y
 	end --x
 	end --z

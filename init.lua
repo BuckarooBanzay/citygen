@@ -18,10 +18,14 @@ dofile(MP.."/generate_building.lua")
 dofile(MP.."/plot_buildings.lua")
 dofile(MP.."/plot_streets.lua")
 dofile(MP.."/cityblock.lua")
-dofile(MP.."/render.lua")
 dofile(MP.."/mapgen.lua")
 dofile(MP.."/chatcommands.lua")
 dofile(MP.."/debug.lua")
+
+dofile(MP.."/renderers/street.lua")
+dofile(MP.."/renderers/sewer.lua")
+dofile(MP.."/renderers/platform.lua")
+dofile(MP.."/renderers/buildings.lua")
 
 dofile(MP.."/util/streetname.lua")
 

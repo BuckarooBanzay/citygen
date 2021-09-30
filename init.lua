@@ -12,7 +12,6 @@ local MP = minetest.get_modpath("citygen")
 
 dofile(MP.."/api.lua")
 dofile(MP.."/hacks.lua")
-dofile(MP.."/default_buildings.lua")
 dofile(MP.."/util.lua")
 dofile(MP.."/perlin_manager.lua")
 dofile(MP.."/generate_building.lua")
@@ -25,3 +24,8 @@ dofile(MP.."/chatcommands.lua")
 dofile(MP.."/debug.lua")
 
 dofile(MP.."/util/streetname.lua")
+
+if minetest.get_modpath("default") and minetest.get_modpath("moreblocks") then
+    -- enable default (demo?) buildings
+    dofile(MP.."/default_buildings.lua")
+end

@@ -19,13 +19,13 @@ local function detect_closed_edges(data)
 
 			if is_edge(entry) then
 				if entry.direction == "x+" and x < citygen.cityblock_size then
-					entry.closed = is_edge(data[x+1][z])
+					entry.groups.closed = is_edge(data[x+1][z])
 				elseif entry.direction == "x-" and x > 1 then
-					entry.closed = is_edge(data[x-1][z])
+					entry.groups.closed = is_edge(data[x-1][z])
 				elseif entry.direction == "z+" and z < citygen.cityblock_size then
-					entry.closed = is_edge(data[x][z+1])
+					entry.groups.closed = is_edge(data[x][z+1])
 				elseif entry.direction == "z-" and z > 1 then
-					entry.closed = is_edge(data[x][z-1])
+					entry.groups.closed = is_edge(data[x][z-1])
 				end
 
 			end

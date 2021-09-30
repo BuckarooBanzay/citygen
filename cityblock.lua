@@ -42,12 +42,14 @@ function citygen.get_cityblock(mapblock_pos)
 	citygen.plot_streets(root_pos, data, max_x, max_z)
 	citygen.plot_buildings(data, perlin_manager, {x=1, z=1}, {x=max_x-1, z=max_z-1})
 
-	-- fill the rest with a stone platform
+	-- fill the rest with a platform
 	for x=2, max_x do
 		for z=2, max_z do
 			if not data[x][z] then
 				data[x][z] = {
-					platform = true
+					groups = {
+						platform = true
+					}
 				}
 			end
 		end

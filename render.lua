@@ -11,7 +11,7 @@ function citygen.render_sewer(mapblock_pos, data)
 
 	if data.direction == "all" then
 		schematic = MP .. "/schematics/sewer/sewer_all_sides"
-	elseif data.sewer_access then
+	elseif data.groups.sewer_access then
 		schematic = MP .. "/schematics/sewer/sewer_straight_access"
 	else
 		schematic = MP .. "/schematics/sewer/sewer_straight"
@@ -47,9 +47,9 @@ function citygen.render_street(mapblock_pos, data)
 
 	if data.direction == "all" then
 		schematic = MP .. "/schematics/street/street_all_sides"
-	elseif data.sewer_access then
+	elseif data.groups.sewer_access then
 		schematic = MP .. "/schematics/street/street_straight_sewer_access"
-	elseif data.crossing then
+	elseif data.groups.crossing then
 		schematic = MP .. "/schematics/street/street_straight_crossing"
 	else
 		schematic = MP .. "/schematics/street/street_straight"
@@ -74,7 +74,7 @@ function citygen.render_street(mapblock_pos, data)
 		on_metadata = function(_, content_id, meta)
 			if content_id == content_street_sign then
 				-- write street name
-				local txt = data.z_streetname .. "\n" .. data.x_streetname
+				local txt = data.attributes.z_streetname .. "\n" .. data.attributes.x_streetname
 				meta:set_string("infotext", txt)
 				meta:set_string("text", txt)
 			end
@@ -93,24 +93,24 @@ function citygen.render_platform(mapblock_pos)
 end
 
 function citygen.render_building(mapblock_pos, data)
-	if mapblock_pos.y < 0 or mapblock_pos.y > data.height then
+	if mapblock_pos.y < 0 or mapblock_pos.y > data.attributes.height then
 		return
 	end
 
-	local building_def = citygen.buildings[data.building_type]
+	local building_def = citygen.buildings[data.attributes.building_type]
 	assert(building_def)
 
 	local is_bottom = mapblock_pos.y == 0
-	local is_top = mapblock_pos.y == data.height
+	local is_top = mapblock_pos.y == data.attributes.height
 
 	local three_slice
-	if data.type == "inner" then
+	if data.groups.inside then
 		three_slice = building_def.schematics.center
-	elseif data.type == "edge" and not data.closed then
+	elseif data.groups.edge and not data.groups.closed then
 		three_slice = building_def.schematics.edge
-	elseif data.type == "edge" and data.closed then
+	elseif data.groups.edge and data.groups.closed then
 		three_slice = building_def.schematics.edge_closed
-	elseif data.type == "corner" then
+	elseif data.groups.corner then
 		three_slice = building_def.schematics.corner
 	end
 

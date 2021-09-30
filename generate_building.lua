@@ -28,35 +28,40 @@ function citygen.generate_building(perlin_manager, options)
 
 		for z=1, size_z do
 			local def = {
-				height = size_y,
-				building_type = building_type
+				groups = {
+					building = true
+				},
+				attributes = {
+					height = size_y,
+					building_type = building_type
+				}
 			}
 			if x == 1 and z == 1 then
-				def.type = "corner"
+				def.groups.corner = true
 				def.direction = "x-z-"
 			elseif x == size_x and z == size_z then
-				def.type = "corner"
+				def.groups.corner = true
 				def.direction = "x+z+"
 			elseif x == size_x and z == 1 then
-				def.type = "corner"
+				def.groups.corner = true
 				def.direction = "x+z-"
 			elseif x == 1 and z == size_z then
-				def.type = "corner"
+				def.groups.corner = true
 				def.direction = "x-z+"
 			elseif x == 1 then
-				def.type = "edge"
+				def.groups.edge = true
 				def.direction = "x-"
 			elseif z == 1 then
-				def.type = "edge"
+				def.groups.edge = true
 				def.direction = "z-"
 			elseif x == size_x then
-				def.type = "edge"
+				def.groups.edge = true
 				def.direction = "x+"
 			elseif z == size_z then
-				def.type = "edge"
+				def.groups.edge = true
 				def.direction = "z+"
 			else
-				def.type = "inner"
+				def.groups.inside = true
 			end
 
 			data[x][z] = def

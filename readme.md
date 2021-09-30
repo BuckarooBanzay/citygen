@@ -39,22 +39,37 @@ cityblock = {
 	{
 		{ -- x axis
 			{ -- z axis
-				building_type = "citygen:default_building2",
-				type = "edge",
+				groups = {
+					building = true,
+					edge = true
+				},
+				attributes = {
+					building_type = "citygen:default_building2",
+					height = 5
+				},
 				direction = "x+",
-				height = 5
 			},
 			{
-				building_type = "citygen:default_building2",
-				type = "edge",
+				groups = {
+					building = true,
+					edge = true
+				},
+				attributes = {
+					building_type = "citygen:default_building2",
+					height = 5
+				},
 				direction = "x+",
-				height = 5
 			},
 			{
-				building_type = "citygen:default_building2",
-				type = "corner",
+				groups = {
+					building = true,
+					corner = true
+				},
+				attributes = {
+					building_type = "citygen:default_building2",
+					height = 5
+				},
 				direction = "x+z+",
-				height = 5
 			}
 		}
 	},

@@ -1,0 +1,141 @@
+
+local function get_street(x_streetname, z_streetname, direction)
+    return {
+        groups = {
+            street = true
+        },
+        attributes = {
+            x_streetname = x_streetname,
+            z_streetname = z_streetname
+        },
+        direction = direction
+    }
+end
+
+local function get_platform()
+    return {
+        groups = {
+            platform = true
+        }
+    }
+end
+
+local building_index = {}
+
+local function get_building(perlin_manager)
+	if #building_index == 0 then
+		-- index buildings by number
+		for _, def in pairs(citygen.buildings) do
+			table.insert(building_index, def)
+		end
+	end
+
+    local selected_building_index = perlin_manager.get_value(1, #building_index)
+	local building_def = building_index[selected_building_index]
+    assert(building_def)
+
+    local height = perlin_manager.get_value(3, 10)
+
+    return {
+        groups = {
+            building = true
+        },
+        attributes = {
+            building_type = building_def.name,
+            height = height
+        }
+    }
+end
+
+local rnd = tonumber(string.sub(minetest.get_mapgen_setting("seed"), 1, 7))
+
+function citygen.render_layout(root_pos)
+    local perlin_manager = citygen.create_perlin_manager(root_pos)
+
+    local x_streetname = citygen.get_street_name(rnd + root_pos.z)
+	local z_streetname = citygen.get_street_name(rnd + 2048 + root_pos.x)
+
+    local sc = get_street(x_streetname, z_streetname, "all")
+    local sx = get_street(x_streetname, z_streetname, "x+x-")
+    local sz = get_street(x_streetname, z_streetname, "z+z-")
+    local b1 = get_building(perlin_manager)
+    local b2 = get_building(perlin_manager)
+    local b3 = get_building(perlin_manager)
+    local b4 = get_building(perlin_manager)
+    local b5 = get_building(perlin_manager)
+    local b6 = get_building(perlin_manager)
+    local b7 = get_building(perlin_manager)
+    local b8 = get_building(perlin_manager)
+    local b9 = get_building(perlin_manager)
+    local pl = get_platform()
+
+    -- basic layout
+    local map = {
+        { sc,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz }, -- 1
+        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
+        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
+        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
+        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 }, -- 10
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
+        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
+        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
+        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
+        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
+        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
+        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 },
+        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 },
+        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 },
+        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 } -- 20
+    }
+
+    -- add neighbor/position-dependent data
+    for x=1,20 do
+        for z=1,20 do
+            local entry = map[x][z]
+
+            if entry.groups.street then
+                -- populate street names
+                entry.attributes.crossing = x % 4 == 0
+                entry.attributes.sewer_access = x % 7 == 0
+            end
+
+            if entry.groups.building then
+                local empty = { groups={}, attributes={} }
+                local xplus = x < 20 and entry[x+1][z] or empty
+                local xminus = x > 1 and entry[x-1][z] or empty
+                local zplus = z < 20 and entry[x][z-1] or empty
+                local zminus = z > 1 and entry[x][z-1] or empty
+
+                local xplus_match = xplus.attributes.building_type == entry.attributes.building_type
+                local xminus_match = xminus.attributes.building_type == entry.attributes.building_type
+                local zplus_match = zplus.attributes.building_type == entry.attributes.building_type
+                local zminus_match = zminus.attributes.building_type == entry.attributes.building_type
+
+                if xplus_match and xminus_match and zplus_match and zminus_match then
+                    -- in the center
+                    entry.groups.inside = true
+                elseif not xplus_match and xminus_match and zplus_match and not zminus_match then
+                    entry.groups.corner = true
+                    entry.direction = "x+z-"
+                elseif not xplus_match and xminus_match and not zplus_match and zminus_match then
+                    entry.groups.corner = true
+                    entry.direction = "x+z+"
+                elseif xplus_match and not xminus_match and not zplus_match and zminus_match then
+                    entry.groups.corner = true
+                    entry.direction = "x-z+"
+                elseif xplus_match and not xminus_match and zplus_match and not zminus_match then
+                    entry.groups.corner = true
+                    entry.direction = "x-z-"
+                    -- TODO: edges
+                end
+            end
+        end
+    end
+
+    return map
+end

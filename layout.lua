@@ -1,3 +1,4 @@
+local MP = minetest.get_modpath("citygen")
 
 local function create_street(x_streetname, z_streetname, direction)
     return {
@@ -133,6 +134,8 @@ local function link(map)
     end
 end
 
+
+
 local rnd = tonumber(string.sub(minetest.get_mapgen_setting("seed"), 1, 7))
 
 function citygen.create_layout(root_pos)
@@ -141,93 +144,35 @@ function citygen.create_layout(root_pos)
     local x_streetname = citygen.get_street_name(rnd + root_pos.z)
 	local z_streetname = citygen.get_street_name(rnd + 2048 + root_pos.x)
 
-    local sc = create_street(x_streetname, z_streetname, "all")
-    local sx = create_street(x_streetname, z_streetname, "x+x-")
-    local sz = create_street(x_streetname, z_streetname, "z+z-")
-    local b1 = create_building(perlin_manager)
-    local b2 = create_building(perlin_manager)
-    local b3 = create_building(perlin_manager)
-    local b4 = create_building(perlin_manager)
-    local b5 = create_building(perlin_manager)
-    local b6 = create_building(perlin_manager)
-    local b7 = create_building(perlin_manager)
-    local b8 = create_building(perlin_manager)
-    local b9 = create_building(perlin_manager)
-    local pl = create_platform()
+    local mapping = {
+        sc = create_street(x_streetname, z_streetname, "all"),
+        sx = create_street(x_streetname, z_streetname, "x+x-"),
+        sz = create_street(x_streetname, z_streetname, "z+z-"),
+        b1 = create_building(perlin_manager),
+        b2 = create_building(perlin_manager),
+        b3 = create_building(perlin_manager),
+        b4 = create_building(perlin_manager),
+        b5 = create_building(perlin_manager),
+        b6 = create_building(perlin_manager),
+        b7 = create_building(perlin_manager),
+        b8 = create_building(perlin_manager),
+        b9 = create_building(perlin_manager),
+        pl = create_platform()
+    }
 
     local layouts = {}
 
-    table.insert(layouts, {
-        -- basic layout
-        { sc,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz }, -- 1
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b4,b4,b4,b4 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 }, -- 10
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b7,b7,b7,b7,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,b8,b9,b9,b9,b9,b9,b9,b9,b9 } -- 20
-    })
+    local filenames = {
+        "basic.txt",
+        "green_spaces.txt",
+        "big_complex.txt"
+    }
 
-    table.insert(layouts, {
-        -- "green spaces" layout
-        { sc,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz }, -- 1
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b1,b1,b1,b1,b1,b1,b2,b2,b2,b2,b2,b3,b3,b3,b3,b3,b4,b4,b4,b4 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 }, -- 10
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b5,b5,b5,b5,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,b6,b6,b6,b6 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,pl,pl,b9,b9,b9,b9,b9,b9,b9 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,pl,pl,b9,b9,b9,b9,b9,b9,b9 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,pl,pl,b9,b9,b9,b9,b9,b9,b9 },
-        { sx,b7,b7,b7,b7,b8,b8,b8,b8,b8,b8,b8,pl,pl,b9,b9,b9,b9,b9,b9,b9 } -- 20
-    })
+    for _, filename in ipairs(filenames) do
+        local layout = citygen.parse_layout(MP .. "/layouts/" .. filename, mapping)
+        table.insert(layouts, layout)
+    end
 
-    table.insert(layouts, {
-        -- "big complex" layout
-        { sc,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz,sz }, -- 1
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,b1,pl,pl },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-        { sx,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl,pl },
-    })
 
     local layout_number = perlin_manager.get_value(1, #layouts)
     local map = layouts[layout_number]

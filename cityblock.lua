@@ -30,7 +30,7 @@ function citygen.get_cityblock(mapblock_pos)
 
 	local result = {
 		root_pos = root_pos,
-		data = citygen.render_layout(root_pos)
+		data = citygen.create_layout(root_pos)
 	}
 
 	-- cache computed result

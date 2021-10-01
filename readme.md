@@ -19,6 +19,10 @@ Generates a procedural city with prefabricated blocks and some randomization
 * `morelights` for the streetlights and sewer lighting
 * `street_signs` for the streetname signs
 
+# Updating the mod
+
+Breaking changes can happen at any time, don't upgrade the mod if you plan on keeping you world-cityscape consistent!
+
 # How it works
 
 The map is divided into 20 mapblocks (Variable: `citygen.cityblock_size`) along the z and x axis, called the "cityblock".

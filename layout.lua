@@ -42,12 +42,35 @@ local function get_building(perlin_manager)
         },
         attributes = {
             building_type = building_def.name,
+            building_id = math.random(1000),
             height = height
         }
     }
 end
 
 local rnd = tonumber(string.sub(minetest.get_mapgen_setting("seed"), 1, 7))
+
+local function same_building_type(e1, e2)
+    return e1 and e2 and e1.attributes and e2.attributes and
+        e1.attributes.building_id == e2.attributes.building_id
+end
+
+local function copy(entry)
+    local c = {
+        direction = entry.direction,
+        attributes = {},
+        groups = {}
+    }
+
+    for k, v in pairs(entry.attributes or {}) do
+        c.attributes[k] = v
+    end
+    for k, v in pairs(entry.groups or {}) do
+        c.groups[k] = v
+    end
+
+    return c
+end
 
 function citygen.render_layout(root_pos)
     local perlin_manager = citygen.create_perlin_manager(root_pos)
@@ -96,30 +119,32 @@ function citygen.render_layout(root_pos)
     -- add neighbor/position-dependent data
     for x=1,20 do
         for z=1,20 do
-            local entry = map[x][z]
+            local entry = copy(map[x][z])
+            map[x][z] = entry
 
             if entry.groups.street then
-                -- populate street names
-                entry.attributes.crossing = x % 4 == 0
-                entry.attributes.sewer_access = x % 7 == 0
+                if entry.direction == "x+x-" then
+                    entry.groups.crossing = x % 4 == 0
+                    entry.groups.sewer_access = x % 7 == 0
+                elseif entry.direction == "z+z-" then
+                    entry.groups.crossing = z % 4 == 0
+                    entry.groups.sewer_access = z % 7 == 0
+                end
             end
 
             if entry.groups.building then
                 local empty = { groups={}, attributes={} }
-                local xplus = x < 20 and entry[x+1][z] or empty
-                local xminus = x > 1 and entry[x-1][z] or empty
-                local zplus = z < 20 and entry[x][z-1] or empty
-                local zminus = z > 1 and entry[x][z-1] or empty
+                local xplus = x < 20 and map[x+1][z] or empty
+                local xminus = x > 1 and map[x-1][z] or empty
+                local zplus = z < 20 and map[x][z+1] or empty
+                local zminus = z > 1 and map[x][z-1] or empty
 
-                local xplus_match = xplus.attributes.building_type == entry.attributes.building_type
-                local xminus_match = xminus.attributes.building_type == entry.attributes.building_type
-                local zplus_match = zplus.attributes.building_type == entry.attributes.building_type
-                local zminus_match = zminus.attributes.building_type == entry.attributes.building_type
+                local xplus_match = same_building_type(xplus, entry)
+                local xminus_match = same_building_type(xminus, entry)
+                local zplus_match = same_building_type(zplus, entry)
+                local zminus_match = same_building_type(zminus, entry)
 
-                if xplus_match and xminus_match and zplus_match and zminus_match then
-                    -- in the center
-                    entry.groups.inside = true
-                elseif not xplus_match and xminus_match and zplus_match and not zminus_match then
+                if not xplus_match and xminus_match and zplus_match and not zminus_match then
                     entry.groups.corner = true
                     entry.direction = "x+z-"
                 elseif not xplus_match and xminus_match and not zplus_match and zminus_match then
@@ -131,7 +156,21 @@ function citygen.render_layout(root_pos)
                 elseif xplus_match and not xminus_match and zplus_match and not zminus_match then
                     entry.groups.corner = true
                     entry.direction = "x-z-"
-                    -- TODO: edges
+                elseif not xplus_match and xminus_match and zplus_match and zminus_match then
+                    entry.groups.edge = true
+                    entry.direction = "x+"
+                elseif xplus_match and not xminus_match and zplus_match and zminus_match then
+                    entry.groups.edge = true
+                    entry.direction = "x-"
+                elseif xplus_match and xminus_match and not zplus_match and zminus_match then
+                    entry.groups.edge = true
+                    entry.direction = "z+"
+                elseif xplus_match and xminus_match and zplus_match and not zminus_match then
+                    entry.groups.edge = true
+                    entry.direction = "z-"
+                else
+                    -- in the center
+                    entry.groups.inside = true
                 end
             end
         end

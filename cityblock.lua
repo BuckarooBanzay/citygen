@@ -28,36 +28,9 @@ function citygen.get_cityblock(mapblock_pos)
 		return cache[cache_key]
 	end
 
-	local perlin_manager = citygen.create_perlin_manager(root_pos)
-
-	local max_x = citygen.cityblock_size
-	local max_z = citygen.cityblock_size
-
-	-- initialize 2-dimensional data
-	local data = {}
-	for x=1, max_x do
-		data[x] = {}
-	end
-
-	citygen.plot_streets(root_pos, data, max_x, max_z)
-	citygen.plot_buildings(data, perlin_manager, {x=1, z=1}, {x=max_x-1, z=max_z-1})
-
-	-- fill the rest with a platform
-	for x=2, max_x do
-		for z=2, max_z do
-			if not data[x][z] then
-				data[x][z] = {
-					groups = {
-						platform = true
-					}
-				}
-			end
-		end
-	end
-
 	local result = {
 		root_pos = root_pos,
-		data = data
+		data = citygen.render_layout(root_pos)
 	}
 
 	-- cache computed result

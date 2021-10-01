@@ -25,12 +25,12 @@ Breaking changes can happen at any time, don't upgrade the mod if you plan on ke
 
 # How it works
 
-The map is divided into 20 mapblocks (Variable: `citygen.cityblock_size`) along the z and x axis, called the "cityblock".
-Those 20-mapblock squares are plotted once (and cached) with a predefined seed depending on their position on the map.
+The map is divided into 20 mapblocks along the z and x axis, called the "cityblock".
+Those 20-mapblock squares are plotted once (and cached) with a predefined layout depending on their position on the map.
 Streets are always aligned to the sides of the cityblock.
-Relevant files for the plotting mechanism:
-* [plot_streets.lua](plot_streets.lua)
-* [plot_buildings.lua](plot_buildings.lua)
+Relevant files for the layouting mechanism:
+* [layout.lua](layout.lua)
+* [layout_parser.lua](layout_parser.lua)
 
 
 To ensure that the generated data is always the same a perlin-noise is derived from the current position of the cityblock.

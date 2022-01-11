@@ -6,9 +6,9 @@ if has_street_signs_mod then
 	content_street_sign = minetest.get_content_id("street_signs:sign_basic")
 end
 
-citygen.register_renderer("street", {
+citygen.register_renderer("simple_place_rotate", {
 	render = function(building_def, layout_data, mapblock_pos)
-		if mapblock_pos.y ~= 0 then
+		if mapblock_pos.y ~= building_def.pos_y then
 			return
 		end
 
@@ -21,7 +21,7 @@ citygen.register_renderer("street", {
 			end
 		end
 
-        citygen.place_and_orient(mapblock_pos, building_def.schematics, "street", { on_metadata = on_metadata })
+		citygen.place_and_orient(mapblock_pos, building_def.schematics, "street", { on_metadata = on_metadata })
 
 	end
 })

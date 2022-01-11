@@ -29,10 +29,11 @@ dofile(MP.."/util/place_orient.lua")
 dofile(MP.."/layout/street.lua")
 
 -- renderers
-dofile(MP.."/renderer/street.lua")
+dofile(MP.."/renderer/simple_place_rotate.lua")
 
 if minetest.get_modpath("default") and minetest.get_modpath("moreblocks") then
     -- enable default (demo?) buildings
     dofile(MP.."/default/default_buildings.lua")
     dofile(MP.."/default/street.lua")
+    dofile(MP.."/default/sewer.lua")
 end

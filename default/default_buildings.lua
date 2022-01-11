@@ -25,19 +25,21 @@ local default_schematics = {
 
 citygen.register_building("citygen:default_building", {
 	renderer = "12-part-template",
-	layout = "building_default",
+	layout = "building",
+	constraints = {
+		min_x_size = 3,
+		max_x_size = 10,
+		min_y_size = 5,
+		max_y_size = 15,
+		min_z_size = 3,
+		max_z_size = 10
+	},
 	schematics = default_schematics
-})
-
-citygen.register_layout("building_default", {
-	order = 10,
-	layout = function(building_defs, layout, root_pos)
-		-- TODO
-	end
 })
 
 citygen.register_renderer("12-part-template", {
 	render = function(building_def, mapblock_pos)
+		-- TODO
 	end
 })
 

@@ -18,13 +18,17 @@ minetest.register_on_mods_loaded(function()
     end)
 
     -- buildings by layout-name
-    for _, building in pairs(citygen.get_buildings()) do
-        local list = buildings_by_layout[building.layout]
+    for _, building_def in pairs(citygen.get_buildings()) do
+        assert(type(building_def.name) == "string", "building_def without name registered")
+        assert(type(building_def.layout) == "string", "layout not found on building: " .. building_def.name)
+        assert(type(building_def.renderer) == "string", "renderer not found on building: " .. building_def.name)
+
+        local list = buildings_by_layout[building_def.layout]
         if not list then
             list = {}
-            buildings_by_layout[building.layout] = list
+            buildings_by_layout[building_def.layout] = list
         end
-        table.insert(list, building)
+        table.insert(list, building_def)
     end
 end)
 
@@ -32,10 +36,8 @@ function citygen.populate_layout(root_pos)
     local layout = citygen.new_layout(citygen.cityblock_size, citygen.cityblock_size)
 
     for _, layout_def in ipairs(ordered_layouts) do
-        for _, building_def in ipairs(buildings_by_layout[layout_def.name] or {}) do
-            layout_def.layout(building_def, layout, root_pos)
-            -- TODO
-        end
+        local building_defs = buildings_by_layout[layout_def.name] or {}
+        layout_def.layout(building_defs, layout, root_pos)
     end
 
     return layout

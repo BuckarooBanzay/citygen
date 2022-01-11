@@ -31,7 +31,7 @@ citygen.register_building("citygen:default_building", {
 
 citygen.register_layout("building_default", {
 	order = 10,
-	layout = function(building_def, layout, root_pos)
+	layout = function(building_defs, layout, root_pos)
 		-- TODO
 	end
 })

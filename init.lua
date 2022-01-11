@@ -23,9 +23,16 @@ dofile(MP.."/mapgen.lua")
 dofile(MP.."/debug.lua")
 
 dofile(MP.."/util/streetname.lua")
+dofile(MP.."/util/place_orient.lua")
+
+-- layouts
+dofile(MP.."/layout/street.lua")
+
+-- renderers
+dofile(MP.."/renderer/street.lua")
 
 if minetest.get_modpath("default") and minetest.get_modpath("moreblocks") then
     -- enable default (demo?) buildings
     dofile(MP.."/default/default_buildings.lua")
-    dofile(MP.."/default/default_street.lua")
+    dofile(MP.."/default/street.lua")
 end

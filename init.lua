@@ -14,21 +14,18 @@ dofile(MP.."/api.lua")
 dofile(MP.."/hacks.lua")
 dofile(MP.."/util.lua")
 dofile(MP.."/perlin_manager.lua")
-dofile(MP.."/layout_parser.lua")
-dofile(MP.."/layout.lua")
+dofile(MP.."/layout_class.lua")
+dofile(MP.."/layout_checks.lua")
+dofile(MP.."/populate_layout.lua")
+dofile(MP.."/render.lua")
 dofile(MP.."/cityblock.lua")
 dofile(MP.."/mapgen.lua")
-dofile(MP.."/chatcommands.lua")
 dofile(MP.."/debug.lua")
-
-dofile(MP.."/renderers/street.lua")
-dofile(MP.."/renderers/sewer.lua")
-dofile(MP.."/renderers/platform.lua")
-dofile(MP.."/renderers/buildings.lua")
 
 dofile(MP.."/util/streetname.lua")
 
 if minetest.get_modpath("default") and minetest.get_modpath("moreblocks") then
     -- enable default (demo?) buildings
-    dofile(MP.."/default_buildings.lua")
+    dofile(MP.."/default/default_buildings.lua")
+    dofile(MP.."/default/default_street.lua")
 end

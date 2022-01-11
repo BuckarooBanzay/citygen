@@ -7,8 +7,7 @@ minetest.register_on_generated(function(minp, maxp)
 	for x=min_mapblock.x,max_mapblock.x do
 	for y=min_mapblock.y,max_mapblock.y do
 		local mapblock_pos = { x=x, y=y, z=z }
-		local data = citygen.get_cityblock_mapblock(mapblock_pos)
-		citygen.fire_renderers(mapblock_pos, data)
+		citygen.render(mapblock_pos)
 	end --y
 	end --x
 	end --z

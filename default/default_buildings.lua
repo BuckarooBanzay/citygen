@@ -23,12 +23,25 @@ local default_schematics = {
 	}
 }
 
-citygen.register_building({
-	name = "citygen:default_building",
-	type = "12-part-template",
+citygen.register_building("citygen:default_building", {
+	renderer = "12-part-template",
+	layout = "building_default",
 	schematics = default_schematics
 })
 
+citygen.register_layout("building_default", {
+	order = 10,
+	layout = function(building_def, layout, root_pos)
+		-- TODO
+	end
+})
+
+citygen.register_renderer("12-part-template", {
+	render = function(building_def, mapblock_pos)
+	end
+})
+
+--[[
 citygen.register_building({
 	name = "citygen:default_building_iron",
 	type = "12-part-template",
@@ -159,3 +172,4 @@ citygen.register_building({
 		["moreblocks:slope_coal_stone_outer"] = "moreblocks:slope_iron_stone_outer",
 	}
 })
+--]]

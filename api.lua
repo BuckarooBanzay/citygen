@@ -1,19 +1,47 @@
 
-citygen.buildings = {}
+-- buildings
 
-function citygen.register_building(def)
-	assert(def.name)
-	citygen.buildings[def.name] = def
+local buildings = {}
+
+function citygen.register_building(name, def)
+	def.name = name
+	buildings[name] = def
 end
+
+function citygen.get_building(name)
+	return buildings[name]
+end
+
+function citygen.get_buildings()
+	return buildings
+end
+
+-- renderers
 
 local renderers = {}
 
-function citygen.register_renderer(callback)
-	table.insert(renderers, callback)
+function citygen.register_renderer(name, def)
+	def.name = name
+	renderers[name] = def
 end
 
-function citygen.fire_renderers(mapblock_pos, data)
-	for _, callback in ipairs(renderers) do
-		callback(mapblock_pos, data)
-	end
+function citygen.get_renderer(name)
+	return renderers[name]
+end
+
+-- layouts
+
+local layouts = {}
+
+function citygen.register_layout(name, def)
+	def.name = name
+	layouts[name] = def
+end
+
+function citygen.get_layout(name)
+	return layouts[name]
+end
+
+function citygen.get_layouts()
+	return layouts
 end

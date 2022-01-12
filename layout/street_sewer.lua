@@ -18,7 +18,11 @@ citygen.register_layout("street_sewer", {
 			for z=min_pos.z, max_pos.z do
 				local pos = { x=x, y=building_def.pos_y, z=z }
 				local name = citygen.mapdata.get_name(pos, false)
-				if (x % building_def.mod_x == 0 or z % building_def.mod_z == 0) and name == replace_name then
+				if x % building_def.mod_x == 0 and
+					z % building_def.mod_z == 0 and
+					x % citygen.cityblock_size > 0 and
+					z % citygen.cityblock_size > 0 and
+					name == replace_name then
 					citygen.mapdata.set_name(pos, building_def.name)
 				end
 			end

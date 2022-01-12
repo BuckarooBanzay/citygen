@@ -21,4 +21,3 @@ jobs:
           ```
           ${{ steps.mineunit.outputs.mineunit-stdout }}
           ```
-~                                                     

@@ -15,14 +15,14 @@ citygen.register_layout("street", {
 		local z_streetname = citygen.get_street_name(rnd + 2048 + min_pos.x)
 
 		for x=min_pos.x, max_pos.x do
-			local pos = { x=x, y=building_def.y, z=1 }
+			local pos = { x=x, y=building_def.pos_y, z=1 }
 			citygen.mapdata.set_name(pos, building_def.name)
 			citygen.mapdata.set_group(pos, "street")
 			citygen.mapdata.set_attribute(pos, "x_streetname", x_streetname)
 			citygen.mapdata.set_attribute(pos, "z_streetname", z_streetname)
 		end
 		for z=min_pos.z, max_pos.z do
-			local pos = { x=1, y=building_def.y, z=z }
+			local pos = { x=1, y=building_def.pos_y, z=z }
 			citygen.mapdata.set_name(pos, building_def.name)
 			citygen.mapdata.set_group(pos, "street")
 			citygen.mapdata.set_attribute(pos, "x_streetname", x_streetname)

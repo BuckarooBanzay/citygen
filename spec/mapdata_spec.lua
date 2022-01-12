@@ -1,7 +1,6 @@
 require("mineunit")
 
 mineunit("core")
-mineunit("player")
 mineunit("default/functions")
 
 sourcefile("spec/common")

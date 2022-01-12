@@ -1,6 +1,12 @@
 
 globals = {
-	"citygen"
+	"citygen",
+	minetest = {
+		fields = {
+			-- mocked in testing
+			"get_mapgen_setting"
+		}
+	}
 }
 
 read_globals = {
@@ -14,5 +20,8 @@ read_globals = {
 
 	-- deps
 	"minetest",
-	"mapblock_lib"
+	"mapblock_lib",
+
+	-- testing
+	"mineunit", "sourcefile"
 }

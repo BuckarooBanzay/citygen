@@ -1,0 +1,24 @@
+name: mineunit
+on: [push, pull_request]
+
+jobs:
+  mineunit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - id: mineunit
+      uses: mt-mods/mineunit-actions@master
+
+    - uses: KeisukeYamashita/create-comment@v1
+      if: failure() && github.event_name == 'pull_request'
+      with:
+        check-only-first-line: true
+        comment: |
+          ### Mineunit regression tests failed, test log follows:
+
+          ```
+          ${{ steps.mineunit.outputs.mineunit-stdout }}
+          ```
+~                                                     

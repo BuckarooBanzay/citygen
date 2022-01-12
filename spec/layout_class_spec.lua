@@ -4,10 +4,7 @@ mineunit("core")
 mineunit("player")
 mineunit("default/functions")
 
-function minetest.get_mapgen_setting()
-	return "singlenode"
-end
-
+sourcefile("spec/common")
 sourcefile("init")
 
 describe("layout_class", function()

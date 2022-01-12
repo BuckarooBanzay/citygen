@@ -2,7 +2,7 @@
 local debug_enabled_players = {}
 local hud_data = {}
 
-minetest.register_chatcommand("cityblock_debug", {
+minetest.register_chatcommand("citygen_debug", {
 	func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		if not player then
@@ -43,10 +43,10 @@ local function update_hud(player, data)
 
     local mapblock_pos = mapblock_lib.get_mapblock(pos)
     local root_pos = citygen.get_root_pos(mapblock_pos)
-    local layout_data = citygen.get_mapblock_layout(mapblock_pos)
+    local mapdata = citygen.mapdata.get_entry(mapblock_pos)
 
     player:hud_change(data.debug_txt, "text", dump({
-        layout_data = layout_data,
+        mapdata = mapdata,
         mapblock_pos = mapblock_pos,
         root_pos = root_pos
     }))

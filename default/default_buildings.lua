@@ -38,7 +38,7 @@ citygen.register_building("citygen:default_building", {
 })
 
 citygen.register_renderer("12-part-template", {
-	render = function(building_def, mapblock_pos)
+	render = function()
 		-- TODO
 	end
 })

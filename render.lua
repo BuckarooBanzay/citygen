@@ -1,11 +1,15 @@
 
 function citygen.render(mapblock_pos)
-    local layout_data = citygen.get_mapblock_layout(mapblock_pos)
-    for name in pairs(layout_data.names) do
-        local building_def = citygen.get_building(name)
-        assert(building_def, "Building not found: " .. name)
+    local name = citygen.mapdata.get_name(mapblock_pos)
+    if not name then
+        return
+    end
 
+    local building_def = citygen.get_building(name)
+    assert(building_def, "building_def not found: " .. name)
+
+    if building_def then
         local renderer = citygen.get_renderer(building_def.renderer)
-        renderer.render(building_def, layout_data, mapblock_pos)
+        renderer.render(building_def, mapblock_pos)
     end
 end

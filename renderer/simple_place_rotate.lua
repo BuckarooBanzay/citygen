@@ -7,7 +7,7 @@ if has_street_signs_mod then
 end
 
 citygen.register_renderer("simple_place_rotate", {
-	render = function(building_def, layout_data, mapblock_pos)
+	render = function(building_def, mapblock_pos)
 		if mapblock_pos.y ~= building_def.pos_y then
 			return
 		end
@@ -15,7 +15,10 @@ citygen.register_renderer("simple_place_rotate", {
 		local on_metadata = function(_, content_id, meta)
 			if content_id == content_street_sign then
 				-- write street name
-				local txt = layout_data.attributes.z_streetname .. "\n" .. layout_data.attributes.x_streetname
+				local z_streetname = citygen.mapdata.get_attribute(mapblock_pos, "z_streetname")
+				local x_streetname = citygen.mapdata.get_attribute(mapblock_pos, "x_streetname")
+
+				local txt = z_streetname .. "\n" .. x_streetname
 				meta:set_string("infotext", txt)
 				meta:set_string("text", txt)
 			end

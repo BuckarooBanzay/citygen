@@ -33,12 +33,12 @@ minetest.register_on_mods_loaded(function()
 end)
 
 function citygen.populate_layout(root_pos)
-    local layout = citygen.new_layout(citygen.cityblock_size, citygen.cityblock_size)
-
     for _, layout_def in ipairs(ordered_layouts) do
         local building_defs = buildings_by_layout[layout_def.name] or {}
-        layout_def.layout(building_defs, layout, root_pos)
-    end
+        local max_pos = vector.add(root_pos, citygen.cityblock_size-1)
 
-    return layout
+        for _, building_def in ipairs(building_defs) do
+            layout_def.layout(building_def, root_pos, max_pos)
+        end
+    end
 end

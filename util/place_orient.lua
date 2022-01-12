@@ -3,7 +3,7 @@
 -- @param mapblock_pos the position to place it
 function citygen.place_and_orient(mapblock_pos, schematics, connected_group, options)
     assert(type(schematics.all_sides) == "string", "schematics does not contain an 'all_sides' block")
-    assert(type(schematics.straight) == "string", "schematics does not contain an 'all_sides' block")
+    assert(type(schematics.straight) == "string", "schematics does not contain an 'straight' block")
 
     options = options or {}
     options.use_cache = true

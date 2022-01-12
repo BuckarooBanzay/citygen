@@ -26,6 +26,7 @@ dofile(MP.."/util/place_orient.lua")
 
 -- layouts
 dofile(MP.."/layout/street.lua")
+dofile(MP.."/layout/street_sewer.lua")
 
 -- renderers
 dofile(MP.."/renderer/simple_place_rotate.lua")

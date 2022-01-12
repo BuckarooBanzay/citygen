@@ -25,6 +25,5 @@ citygen.register_renderer("simple_place_rotate", {
 		end
 
 		citygen.place_and_orient(mapblock_pos, building_def.schematics, "street", { on_metadata = on_metadata })
-
 	end
 })

@@ -31,8 +31,8 @@ function mapdata.set_name(pos, name)
     mapdata.get_entry(pos).name = name
 end
 
-function mapdata.get_name(pos)
-    return mapdata.get_entry(pos, true).name
+function mapdata.get_name(pos, create)
+    return mapdata.get_entry(pos, create == nil or create).name
 end
 
 function mapdata.set_group(pos, group)

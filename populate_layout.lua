@@ -37,8 +37,14 @@ function citygen.populate_layout(root_pos)
         local building_defs = buildings_by_layout[layout_def.name] or {}
         local max_pos = vector.add(root_pos, citygen.cityblock_size-1)
 
-        for _, building_def in ipairs(building_defs) do
-            layout_def.layout(building_def, root_pos, max_pos)
+        if layout_def.type == "multi" then
+            -- pass all building-defs with the given layout
+            layout_def.layout(building_defs, root_pos, max_pos)
+        else
+            -- pass every building-def one-by-one
+            for _, building_def in ipairs(building_defs) do
+                layout_def.layout(building_def, root_pos, max_pos)
+            end
         end
     end
 end

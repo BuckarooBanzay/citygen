@@ -1,6 +1,7 @@
 
 citygen.register_layout("replace_nth", {
 	order = 5,
+	type = "single",
 	layout = function(building_def, min_pos, max_pos)
 		assert(type(building_def.pos_y) == "number", "building_def.pos_y is not a number")
 		assert(type(building_def.replace_nth) == "number", "building_def.replace_nth is not a number")

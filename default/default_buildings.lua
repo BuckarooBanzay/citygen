@@ -37,17 +37,17 @@ citygen.register_building("citygen:default_building", {
 	schematics = default_schematics
 })
 
-citygen.register_renderer("12-part-template", {
-	render = function()
-		-- TODO
-	end
-})
-
---[[
-citygen.register_building({
-	name = "citygen:default_building_iron",
-	type = "12-part-template",
-	schematics = default_schematics,
+citygen.register_building("citygen:default_building_iron", {
+	renderer = "12-part-template",
+	layout = "building",
+	constraints = {
+		min_x_size = 3,
+		max_x_size = 10,
+		min_y_size = 5,
+		max_y_size = 15,
+		min_z_size = 3,
+		max_z_size = 10
+	},
 	replace = {
 		["moreblocks:coal_stone"] = "moreblocks:iron_stone",
 		["moreblocks:coal_glass"] = "moreblocks:clean_glass",
@@ -55,9 +55,17 @@ citygen.register_building({
 		["moreblocks:coal_stone_bricks"] = "moreblocks:iron_stone_bricks",
 		["moreblocks:stair_coal_stone_bricks"] = "moreblocks:stair_iron_stone_bricks",
 		["moreblocks:stair_coal_stone_bricks_outer"] = "moreblocks:stair_iron_stone_bricks_outer",
-	}
+	},
+	schematics = default_schematics
 })
 
+citygen.register_renderer("12-part-template", {
+	render = function()
+		-- TODO
+	end
+})
+
+--[[
 citygen.register_building({
 	name = "citygen:default_building_desert_sandstone",
 	type = "12-part-template",

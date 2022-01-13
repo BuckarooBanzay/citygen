@@ -21,6 +21,8 @@ end
 local renderers = {}
 
 function citygen.register_renderer(name, def)
+	assert(type(def.render) == "function", "renderer_def.render must be a function")
+
 	def.name = name
 	renderers[name] = def
 end
@@ -34,6 +36,10 @@ end
 local layouts = {}
 
 function citygen.register_layout(name, def)
+	assert(type(def.type) == "string", "layout_def.type must be a string")
+	assert(type(def.order) == "number", "layout_def.order must be a number")
+	assert(type(def.layout) == "function", "layout_def.layout must be a function")
+
 	def.name = name
 	layouts[name] = def
 end

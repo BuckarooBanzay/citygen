@@ -2,6 +2,7 @@ local rnd = tonumber(string.sub(minetest.get_mapgen_setting("seed"), 1, 7))
 
 citygen.register_layout("street", {
 	order = 1,
+	type = "multi",
 	layout = function(building_def, min_pos, max_pos)
 		assert(type(building_def.pos_y) == "number", "building_def.pos_y is not a number")
 

@@ -14,11 +14,10 @@ citygen.register_building("citygen:default_street", {
 
 citygen.register_building("citygen:default_street_with_sewer_access", {
 	renderer = "simple_place_rotate",
-	layout = "street_sewer",
+	layout = "replace_nth",
 	pos_y = 0,
-	mod_x = 7,
-	mod_z = 7,
-	replace = "citygen:default_street",
+	replace_nth = 5,
+	replace_name = "citygen:default_street",
 	schematics = {
 		all_sides = MP .. "/schematics/street/street_straight_sewer_access",
 		straight = MP .. "/schematics/street/street_straight_sewer_access"

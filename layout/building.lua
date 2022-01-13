@@ -9,6 +9,8 @@ citygen.register_layout("building", {
 			return
 		end
 
+		local pmgr = citygen.create_perlin_manager(min_pos)
+
 		-- TODO
 	end
 })

@@ -26,28 +26,12 @@ local default_schematics = {
 citygen.register_building("citygen:default_building", {
 	renderer = "12-part-template",
 	layout = "building",
-	constraints = {
-		min_x_size = 3,
-		max_x_size = 10,
-		min_y_size = 5,
-		max_y_size = 15,
-		min_z_size = 3,
-		max_z_size = 10
-	},
 	schematics = default_schematics
 })
 
 citygen.register_building("citygen:default_building_iron", {
 	renderer = "12-part-template",
 	layout = "building",
-	constraints = {
-		min_x_size = 3,
-		max_x_size = 10,
-		min_y_size = 5,
-		max_y_size = 15,
-		min_z_size = 3,
-		max_z_size = 10
-	},
 	replace = {
 		["moreblocks:coal_stone"] = "moreblocks:iron_stone",
 		["moreblocks:coal_glass"] = "moreblocks:clean_glass",

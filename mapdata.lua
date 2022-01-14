@@ -10,6 +10,7 @@ function mapdata.get_entry(pos, create)
     local root_pos_hash = minetest.hash_node_position(root_pos)
     if not root_pos_cache[root_pos_hash] and create then
         -- create layout
+        minetest.log("action", "[citygen] creating mapdata for root_pos: " .. minetest.pos_to_string(root_pos))
         citygen.populate_layout(root_pos)
         root_pos_cache[root_pos_hash] = true
     end

@@ -27,9 +27,11 @@ dofile(MP.."/util/place_orient.lua")
 -- layouts
 dofile(MP.."/layout/street.lua")
 dofile(MP.."/layout/replace_nth.lua")
+dofile(MP.."/layout/building.lua")
 
 -- renderers
 dofile(MP.."/renderer/simple_place_rotate.lua")
+dofile(MP.."/renderer/12part.lua")
 
 if minetest.get_modpath("default") and minetest.get_modpath("moreblocks") then
     -- enable default (demo?) buildings

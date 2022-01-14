@@ -10,6 +10,7 @@ function citygen.render(mapblock_pos)
 
     if building_def then
         local renderer = citygen.get_renderer(building_def.renderer)
+        assert(renderer, "renderer not found: " .. building_def.renderer)
         renderer.render(building_def, mapblock_pos)
     end
 end

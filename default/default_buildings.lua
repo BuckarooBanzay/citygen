@@ -24,13 +24,13 @@ local default_schematics = {
 }
 
 citygen.register_building("citygen:default_building", {
-	renderer = "12-part-template",
+	renderer = "12-part",
 	layout = "building",
 	schematics = default_schematics
 })
 
 citygen.register_building("citygen:default_building_iron", {
-	renderer = "12-part-template",
+	renderer = "12-part",
 	layout = "building",
 	replace = {
 		["moreblocks:coal_stone"] = "moreblocks:iron_stone",
@@ -41,12 +41,6 @@ citygen.register_building("citygen:default_building_iron", {
 		["moreblocks:stair_coal_stone_bricks_outer"] = "moreblocks:stair_iron_stone_bricks_outer",
 	},
 	schematics = default_schematics
-})
-
-citygen.register_renderer("12-part-template", {
-	render = function()
-		-- TODO
-	end
 })
 
 --[[

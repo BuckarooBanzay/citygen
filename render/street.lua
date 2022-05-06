@@ -8,8 +8,8 @@ if has_street_signs_mod then
 		on_metadata = function(pos, content_id, meta)
 			local mapblock_pos = mapblock_lib.get_mapblock(pos)
 			local root_pos = citygen.get_root_pos(mapblock_pos)
-			local x_streetname = citygen.get_street_name(root_pos.x + 2000)
-			local z_streetname = citygen.get_street_name(root_pos.z + 4000)
+			local x_streetname = citygen.get_street_name(root_pos.z + 2000)
+			local z_streetname = citygen.get_street_name(root_pos.x + 4000)
 
 			if content_id == content_street_sign then
 				-- write street name
@@ -29,15 +29,22 @@ assert(vector.equals(catalog:get_size(), {x=4, y=2, z=2}), "catalog size matches
 -- positions inside the catalog
 local catalog_pos = {
 	all_directions = {x=0, y=1, z=1},
+	sewer_all_directions = {x=0, y=0, z=1},
 	three_sides = {x=1, y=1, z=0},
 	corner = {x=0, y=1, z=0},
-	straight = {x=1, y=1, z=1}
+	straight = {x=1, y=1, z=1},
+	sewer_straight = {x=1, y=0, z=1}
 }
 
-local mapblocks = {
+local streets = {
 	all_directions = catalog:prepare(catalog_pos.all_directions, all_directions_options),
 	three_sides = {},
 	corner = {},
+	straight = {}
+}
+
+local sewers = {
+	all_directions = catalog:prepare(catalog_pos.sewer_all_directions),
 	straight = {}
 }
 
@@ -47,18 +54,19 @@ for _, angle in ipairs({0,90,180,270}) do
 		transform = {
 			rotate = {
 				axis = "y",
-				angle = angle
-			},
-			disable_orientation = {
-				["default:stonebrick"] = true
+				angle = angle,
+				disable_orientation = {
+					["default:stonebrick"] = true
+				}
 			}
 		}
 	}
-	mapblocks.three_sides[angle] = catalog:prepare(catalog_pos.three_sides, options)
-	mapblocks.corner[angle] = catalog:prepare(catalog_pos.corner, options)
+	streets.three_sides[angle] = catalog:prepare(catalog_pos.three_sides, options)
+	streets.corner[angle] = catalog:prepare(catalog_pos.corner, options)
 
 	if angle <= 90 then
-		mapblocks.straight[angle] = catalog:prepare(catalog_pos.straight, options)
+		streets.straight[angle] = catalog:prepare(catalog_pos.straight, options)
+		sewers.straight[angle] = catalog:prepare(catalog_pos.sewer_straight, options)
 	end
 end
 
@@ -76,15 +84,7 @@ local function get_neighbor_info(mapblock_pos)
 	}
 end
 
--- register renderer
-citygen.register_renderer("street", function(mapblock_pos)
-	if mapblock_pos.y ~= 0 then
-		-- only place on y=0
-		return
-	end
-
-	local ni = get_neighbor_info(mapblock_pos)
-
+local function place(mapblocks, mapblock_pos, ni)
 	if ni.x_plus and ni.x_minus and ni.z_plus and ni.z_minus then
 		mapblocks.all_directions(mapblock_pos)
 	elseif ni.x_plus and ni.x_minus then
@@ -92,5 +92,15 @@ citygen.register_renderer("street", function(mapblock_pos)
 	elseif ni.z_minus and ni.z_minus then
 		mapblocks.straight[90](mapblock_pos)
 	end
+end
 
+-- register renderer
+citygen.register_renderer("street", function(mapblock_pos)
+	if mapblock_pos.y == 0 then
+		local ni = get_neighbor_info(mapblock_pos)
+		place(streets, mapblock_pos, ni)
+	elseif mapblock_pos.y == -1 then
+		local ni = get_neighbor_info(mapblock_pos)
+		place(sewers, mapblock_pos, ni)
+	end
 end)

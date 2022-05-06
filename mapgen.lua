@@ -1,5 +1,4 @@
 
---[[
 minetest.register_on_generated(function(minp, maxp)
 	local min_mapblock = mapblock_lib.get_mapblock(minp)
 	local max_mapblock = mapblock_lib.get_mapblock(maxp)
@@ -9,9 +8,13 @@ minetest.register_on_generated(function(minp, maxp)
 	for y=min_mapblock.y,max_mapblock.y do
 		local mapblock_pos = { x=x, y=y, z=z }
 		local data = citygen.get_cityblock_mapblock(mapblock_pos)
-		citygen.fire_renderers(mapblock_pos, data)
+		if data then
+			local renderer = citygen.get_renderer(data.renderer)
+			if renderer then
+				renderer(mapblock_pos, data)
+			end
+		end
 	end --y
 	end --x
 	end --z
 end)
---]]

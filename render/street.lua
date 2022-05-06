@@ -80,7 +80,7 @@ local function get_neighbor_info(mapblock_pos)
 		x_plus = x_plus and x_plus.renderer == "street",
 		z_plus = z_plus and z_plus.renderer == "street",
 		x_minus = x_minus and x_minus.renderer == "street",
-		z_minus = z_minus and z_minus.renderer == "street",
+		z_minus = z_minus and z_minus.renderer == "street"
 	}
 end
 
@@ -91,6 +91,9 @@ local function place(mapblocks, mapblock_pos, ni)
 		mapblocks.straight[0](mapblock_pos)
 	elseif ni.z_minus and ni.z_minus then
 		mapblocks.straight[90](mapblock_pos)
+	else
+		-- fallback
+		mapblocks.all_directions(mapblock_pos)
 	end
 end
 

@@ -4,8 +4,9 @@ local pos2 = vector.new(90,30,90)
 local jobs = {}
 
 local MP = minetest.get_modpath("citygen_test")
-table.insert(jobs, loadfile(MP .. "/prepare_world.lua")(pos1, pos2))
 table.insert(jobs, loadfile(MP .. "/perlin_manager.lua")())
+table.insert(jobs, loadfile(MP .. "/util.lua")())
+table.insert(jobs, loadfile(MP .. "/prepare_world.lua")(pos1, pos2))
 
 local job_index = 1
 

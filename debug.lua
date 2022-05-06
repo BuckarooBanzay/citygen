@@ -24,6 +24,7 @@ local function setup_hud(player, name)
     hud_data[name] = data
     data.debug_txt = player:hud_add({
         hud_elem_type = "text",
+        alignment = {x=1, y=0},
         position = { x=0.5, y=0.5 },
         text = "Initializing..."
     })
@@ -38,7 +39,15 @@ local function remove_hud(player, name)
 end
 
 local function update_hud(player, data)
-    player:hud_change(data.debug_txt, "text", dump({todo=true}))
+    local pos = player:get_pos()
+    local mapblock_pos = mapblock_lib.get_mapblock(pos)
+    local root_pos = citygen.get_root_pos(mapblock_pos)
+    local cityblock_mapblock = citygen.get_cityblock_mapblock(mapblock_pos)
+    player:hud_change(data.debug_txt, "text", dump({
+        root_pos = root_pos,
+        mapblock_pos = mapblock_pos,
+        cityblock_mapblock = cityblock_mapblock
+    }))
 end
 
 local function debug_worker()

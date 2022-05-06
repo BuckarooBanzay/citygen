@@ -1,4 +1,5 @@
 
+--[[
 minetest.register_on_generated(function(minp, maxp)
 	local min_mapblock = mapblock_lib.get_mapblock(minp)
 	local max_mapblock = mapblock_lib.get_mapblock(maxp)
@@ -13,3 +14,4 @@ minetest.register_on_generated(function(minp, maxp)
 	end --x
 	end --z
 end)
+--]]

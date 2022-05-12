@@ -6,12 +6,12 @@ if has_street_signs_mod then
 	local content_street_sign = minetest.get_content_id("street_signs:sign_basic")
 	all_directions_options = {
 		on_metadata = function(pos, content_id, meta)
-			local mapblock_pos = mapblock_lib.get_mapblock(pos)
-			local root_pos = citygen.get_root_pos(mapblock_pos)
-			local x_streetname = citygen.get_street_name(root_pos.z + 2000)
-			local z_streetname = citygen.get_street_name(root_pos.x + 4000)
-
 			if content_id == content_street_sign then
+				local mapblock_pos = mapblock_lib.get_mapblock(pos)
+				local root_pos = citygen.get_root_pos(mapblock_pos)
+				local x_streetname = citygen.get_street_name(root_pos.z + 2000)
+				local z_streetname = citygen.get_street_name(root_pos.x + 4000)
+
 				-- write street name
 				local txt = z_streetname .. "\n" .. x_streetname
 				meta:set_string("infotext", txt)

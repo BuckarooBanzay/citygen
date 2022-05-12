@@ -1,7 +1,6 @@
 -- name -> fn(mapblock_pos, data)
 local renderers = {}
 
-
 function citygen.register_renderer(name, fn)
     renderers[name] = fn
 end

@@ -28,7 +28,5 @@ dofile(MP.."/renderers/buildings.lua")
 
 dofile(MP.."/util/streetname.lua")
 
-if minetest.get_modpath("default") and minetest.get_modpath("moreblocks") then
-    -- enable default (demo?) buildings
-    dofile(MP.."/default_buildings.lua")
-end
+-- enable default buildings
+dofile(MP.."/default_buildings.lua")
